@@ -1,0 +1,15 @@
+{E:/MDP TAGE Predictor/Design/gated_clk.sv} {1 {vlog -work work -sv -stats=none {E:/MDP TAGE Predictor/Design/gated_clk.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module gated_clk
+
+Top level modules:
+	gated_clk
+
+} {} {}} {E:/MDP TAGE Predictor/Design/TB_clock_gating.sv} {0 {vlog -work work -sv -stats=none {E:/MDP TAGE Predictor/Design/TB_clock_gating.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+** Error: E:/MDP TAGE Predictor/Design/TB_clock_gating.sv(1): (vlog-13006) Could not find the package (uvm_pkg).  Design read will continue, but expect a cascade of errors after this failure.  Furthermore if you experience a vopt-7 error immediately before this error then please check the package names or the library search paths on the command line.
+** Error: E:/MDP TAGE Predictor/Design/TB_clock_gating.sv(2): Cannot open `include file "uvm_macros.svh".
+** Error: (vlog-13069) E:/MDP TAGE Predictor/Design/TB_clock_gating.sv(17): near "uvm_sequence_item": syntax error, unexpected IDENTIFIER.
+** Error: E:/MDP TAGE Predictor/Design/TB_clock_gating.sv(17): Error in class extension specification.
+
+} {3.0 7.0} {}}
