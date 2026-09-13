@@ -1,1 +1,1 @@
-This is an implementation of MDP TAGE Predictor based on HPCA 2024 Paper.
+This is an implementation of MDP TAGE Predictor for speculative Loads at the Load-Store stage of the processor pipeline.
