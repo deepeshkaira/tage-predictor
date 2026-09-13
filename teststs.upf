@@ -1,0 +1,59 @@
+create_power_domain PD_CPU -include_scope
+
+create_supply_port VDD_IN
+create_supply_port VSS_IN
+
+create_supply_net vdd_cpu_int -domain PD_CPU
+create_supply_net vss_cpu_int -domain PD_CPU
+
+connect_supply_net vdd_cpu_int -ports VDD_IN
+connect_supply_net vss_cpu_int -ports VSS_IN
+
+set_domain_supply_net PD_CPU \
+    -primary_power_net vdd_cpu_int 
+    -primary_ground_net vss_cpu_int
+
+
+
+-------------
+
+create_power_domain PD_DUT -include_scope
+
+# 1. Create external ports for BOTH voltages
+create_supply_port VDD_1V0   ;# Main DUT power
+create_supply_port VDD_0V8   ;# Dedicated CPU power
+create_supply_port VSS
+
+# 2. Create the nets
+create_supply_net vdd_dut_net -domain PD_DUT
+create_supply_net vdd_cpu_net -domain PD_DUT
+create_supply_net vss_net     -domain PD_DUT
+
+# 3. Connect external ports to internal nets
+connect_supply_net vdd_dut_net -ports VDD_1V0
+connect_supply_net vdd_cpu_net -ports VDD_0V8
+connect_supply_net vss_net     -ports VSS
+
+# 4. Set primary power for the DUT domain
+set_domain_supply_net PD_DUT \
+        -primary_power_net vdd_dut_net 
+        -primary_ground_net vss_net
+
+# 5. Load the CPU IP
+load_upf cpu.upf -scope u_cpu
+
+# 6. THE CONNECTION: Route the 0.8V net specifically to the CPU port
+connect_supply_net vdd_cpu_net -ports {u_cpu/VDD_IN}
+connect_supply_net vss_net     -ports {u_cpu/VSS_IN}
+
+# 7. Define Power States (This tells the tool what the actual voltages are)
+add_power_state -supply vdd_dut_net -state {STATE_1V0 1.0}
+add_power_state -supply vdd_cpu_net -state {STATE_0V8 0.8}
+
+# 8. Insert Level Shifters for signals crossing domains!
+# If CPU sends data to DUT (0.8V -> 1.0V), we MUST shift it up.
+set_level_shifter ls_cpu_to_dut \
+    -domain PD_CPU \
+    -applies_to outputs \
+    -rule low_to_high \
+    -location parent

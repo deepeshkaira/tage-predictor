@@ -1,0 +1,7 @@
+add to compile or runtime options -
+
+-sverilog -cm line+cond+fsm+tgl+branch+assert
+
+add to run options -
+
+-cm line+cond+fsm+tgl+branch+assert

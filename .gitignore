@@ -1,0 +1,27 @@
+# ModelSim / Questa generated files
+work/
+work_lib/
+transcript
+vsim.wlf
+*.wlf
+*.vcd
+*.fst
+*.log
+*.jou
+*.pb
+coverage/
+covhtmlreport/
+
+# Simulator-generated configuration
+modelsim.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
+# VS Code local settings
+.vscode/
