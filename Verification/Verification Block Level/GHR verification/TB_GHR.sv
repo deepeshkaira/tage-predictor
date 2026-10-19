@@ -39,14 +39,19 @@ interface ghr_if (input logic clk);
 	logic [PKT_WIDTH-1:0] incoming_packet_o;
 	logic [PKT_WIDTH-1:0] expiring_packet_o [0:NUM_HASH_TABLES-1];
 
+	logic recovery_active_i;
+	logic output_valid_o;
+
 	clocking driver_cb @(negedge clk);
 		output en_i;
 		output br_valid_i;
 		output br_packet_i;
 		output misprediction_i;
 		output mispredicted_table_depth_i;
+		output recovery_active_i;
 		input  incoming_packet_o;
 		input  expiring_packet_o;
+		input output_valid_o;
 	endclocking
 
 
@@ -59,6 +64,8 @@ interface ghr_if (input logic clk);
 		input mispredicted_table_depth_i;
 		input incoming_packet_o;
 		input expiring_packet_o;
+		input recovery_active_i;
+		input output_valid_o;
 	endclocking
 
 	modport DRIVER (
@@ -81,8 +88,10 @@ interface ghr_if (input logic clk);
 		input  br_packet_i,
 		input  misprediction_i,
 		input  mispredicted_table_depth_i,
+		input  recovery_active_i,
 		output incoming_packet_o,
-		output expiring_packet_o
+		output expiring_packet_o,
+		output output_valid_o
 	);
 
 	property misprediction_depth_is_known_p;
@@ -129,9 +138,11 @@ class ghr_seq_item extends uvm_sequence_item;
 
 	// Reset and outputs sampled by the monitor
 	bit rst_n;
+	bit recovery_active;
 
 	logic [PKT_WIDTH-1:0] observed_incoming_packet;
 	logic [PKT_WIDTH-1:0] observed_expiring_packet [0:NUM_HASH_TABLES-1];
+	logic observed_output_valid;
 
 	// Favor enabled branch traffic while still exercising gated cycles.
 	constraint reasonable_control_distribution_c {
@@ -157,6 +168,8 @@ class ghr_seq_item extends uvm_sequence_item;
 
 		`uvm_field_int(rst_n,                     UVM_ALL_ON)
 		`uvm_field_int(observed_incoming_packet,  UVM_ALL_ON | UVM_HEX)
+		`uvm_field_int(recovery_active,       UVM_ALL_ON)
+		`uvm_field_int(observed_output_valid, UVM_ALL_ON)
 		`uvm_field_sarray_int(
 		observed_expiring_packet,
 		UVM_ALL_ON | UVM_HEX
@@ -185,7 +198,8 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		input bit       br_valid,
 		input bit [6:0] br_packet,
 		input bit       misprediction,
-		input bit [5:0] mispredicted_depth
+		input bit [5:0] mispredicted_depth,
+		input bit       recovery_active = 1'b0
 	);
 
 		ghr_seq_item tr;
@@ -198,6 +212,7 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		tr.br_packet                = br_packet;
 		tr.misprediction            = misprediction;
 		tr.mispredicted_table_depth = mispredicted_depth;
+		tr.recovery_active 			= recovery_active;
 
 		finish_item(tr);
 
@@ -212,7 +227,8 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		.br_valid           (1'b0),
 		.br_packet          ('0),
 		.misprediction      (1'b0),
-		.mispredicted_depth ('0)
+		.mispredicted_depth ('0),
+		.recovery_active     (1'b0)
 		);
 
 	endtask
@@ -228,7 +244,8 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		.br_valid           (1'b1),
 		.br_packet          (br_packet),
 		.misprediction      (1'b0),
-		.mispredicted_depth ('0)
+		.mispredicted_depth ('0),
+		.recovery_active     (1'b0)
 		);
 
 	endtask
@@ -255,7 +272,8 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		.br_valid           (1'b0),
 		.br_packet          ('0),
 		.misprediction      (1'b1),
-		.mispredicted_depth (mispredicted_depth)
+		.mispredicted_depth (mispredicted_depth),
+		.recovery_active     (1'b0)
 		);
 
 	endtask
@@ -283,7 +301,8 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		.br_valid           (1'b1),
 		.br_packet          (br_packet),
 		.misprediction      (1'b1),
-		.mispredicted_depth (mispredicted_depth)
+		.mispredicted_depth (mispredicted_depth),
+		.recovery_active     (1'b0)
 		);
 
 	endtask
@@ -303,7 +322,8 @@ class ghr_base_sequence extends uvm_sequence #(ghr_seq_item);
 		.br_valid           (br_valid),
 		.br_packet          (br_packet),
 		.misprediction      (misprediction),
-		.mispredicted_depth (mispredicted_depth)
+		.mispredicted_depth (mispredicted_depth),
+		.recovery_active     (1'b0)
 		);
 
 	endtask
@@ -1786,7 +1806,8 @@ class ghr_zero_misprediction_depth_sequence	extends ghr_base_sequence;
 			.br_valid            (1'b0),
 			.br_packet           ('0),
 			.misprediction       (1'b1),
-			.mispredicted_depth  (6'd0)
+			.mispredicted_depth  (6'd0),
+			.recovery_active     (1'b1)
 		);
 
 		idle_cycle();
@@ -1851,7 +1872,8 @@ class ghr_out_of_range_depth_sequence extends ghr_base_sequence;
 			.br_valid            (1'b0),
 			.br_packet           ('0),
 			.misprediction       (1'b1),
-			.mispredicted_depth  (illegal_depth)
+			.mispredicted_depth  (illegal_depth),
+			.recovery_active     (1'b1)
 		);
 
 		idle_cycle();
@@ -2042,6 +2064,7 @@ class ghr_driver extends uvm_driver #(ghr_seq_item);
 		vif.driver_cb.br_packet_i                <= tr.br_packet;
 		vif.driver_cb.misprediction_i            <= tr.misprediction;
 		vif.driver_cb.mispredicted_table_depth_i <=	tr.mispredicted_table_depth;
+		vif.driver_cb.recovery_active_i 		 <= tr.recovery_active;
 
 	endtask
 
@@ -2053,6 +2076,7 @@ class ghr_driver extends uvm_driver #(ghr_seq_item);
 		vif.driver_cb.br_packet_i                <= '0;
 		vif.driver_cb.misprediction_i            <= 1'b0;
 		vif.driver_cb.mispredicted_table_depth_i <= '0;
+		vif.driver_cb.recovery_active_i 		 <= 1'b0;
 
 	endtask
 
@@ -2084,27 +2108,75 @@ class ghr_monitor extends uvm_monitor;
 	virtual task run_phase(uvm_phase phase);
 
 		ghr_seq_item observed_tr;
+
+		bit previous_input_valid;
+
+		bit previous_en;
+		bit previous_br_valid;
+		bit [PKT_WIDTH-1:0] previous_br_packet;
+		bit previous_misprediction;
+		bit [5:0] previous_mispredicted_depth;
+		bit previous_recovery_active;
+
+		previous_input_valid = 1'b0;
+
 		forever begin
 
 			@(vif.monitor_cb);
-			observed_tr = ghr_seq_item::type_id::create("observed_tr");
 
-			// Sample reset and DUT inputs.
-			observed_tr.rst_n = vif.monitor_cb.rst_n;
-			observed_tr.en = vif.monitor_cb.en_i;
-			observed_tr.br_valid = vif.monitor_cb.br_valid_i; 
-			observed_tr.br_packet = vif.monitor_cb.br_packet_i;
-			observed_tr.misprediction = vif.monitor_cb.misprediction_i;
-			observed_tr.mispredicted_table_depth = vif.monitor_cb.mispredicted_table_depth_i;
+			// Asynchronous reset invalidates the input/output pipeline.
+			if (vif.monitor_cb.rst_n !== 1'b1) begin
 
-			// Sample DUT outputs.
-			observed_tr.observed_incoming_packet = vif.monitor_cb.incoming_packet_o;
+				observed_tr =
+					ghr_seq_item::type_id::create("reset_observed_tr");
 
-			foreach (observed_tr.observed_expiring_packet[i]) begin
-				observed_tr.observed_expiring_packet[i] = vif.monitor_cb.expiring_packet_o[i];
+				observed_tr.rst_n = 1'b0;
+				observed_tr.observed_output_valid = vif.monitor_cb.output_valid_o;
+				observed_tr.observed_incoming_packet = vif.monitor_cb.incoming_packet_o;
+
+				foreach (observed_tr.observed_expiring_packet[i]) begin
+					observed_tr.observed_expiring_packet[i] = vif.monitor_cb.expiring_packet_o[i];
+				end
+
+				monitor_port.write(observed_tr);
+				previous_input_valid = 1'b0;
+
 			end
+			else begin
 
-			monitor_port.write(observed_tr);
+				// Current registered outputs correspond to the inputs saved from the preceding clock cycle.
+				if (previous_input_valid) begin
+
+					observed_tr = ghr_seq_item::type_id::create("observed_tr");
+
+					observed_tr.rst_n = 1'b1;
+					observed_tr.en = previous_en;
+					observed_tr.br_valid = previous_br_valid;
+					observed_tr.br_packet = previous_br_packet;
+					observed_tr.misprediction = previous_misprediction;
+					observed_tr.mispredicted_table_depth = previous_mispredicted_depth;
+ 					observed_tr.recovery_active = previous_recovery_active;
+					observed_tr.observed_output_valid = vif.monitor_cb.output_valid_o;
+					observed_tr.observed_incoming_packet = vif.monitor_cb.incoming_packet_o;
+
+					foreach (observed_tr.observed_expiring_packet[i]) begin
+						observed_tr.observed_expiring_packet[i] = vif.monitor_cb.expiring_packet_o[i];
+					end
+
+					monitor_port.write(observed_tr);
+
+				end
+
+				// Save the current inputs for comparison against the registered outputs observed on the next clock.
+				previous_en = vif.monitor_cb.en_i;
+				previous_br_valid = vif.monitor_cb.br_valid_i;
+				previous_br_packet = vif.monitor_cb.br_packet_i;
+				previous_misprediction = vif.monitor_cb.misprediction_i;
+				previous_mispredicted_depth = vif.monitor_cb.mispredicted_table_depth_i;
+				previous_recovery_active = vif.monitor_cb.recovery_active_i;
+				previous_input_valid = 1'b1;
+
+			end
 		end
 
 	endtask
@@ -2138,6 +2210,9 @@ class ghr_scoreboard extends uvm_scoreboard;
 	// Row 2 contains pointers 18–26
 	// Row 3 contains pointers 27–35
 	logic [PKT_WIDTH-1:0] ref_bank_mem [0:ENTRIES_PER_BANK-1][0:NUM_BANKS-1];
+	bit branch_accepted;
+	bit misprediction_accepted;
+	logic expected_output_valid;
 
 	int unsigned ref_head_ptr;
 
@@ -2251,9 +2326,40 @@ class ghr_scoreboard extends uvm_scoreboard;
 		else begin
 			passed_checks++;
 		end
+	endfunction
+
+	function void check_output_valid(input logic expected_valid,input logic observed_valid);
+
+		total_checks++;
+
+		if (observed_valid !== expected_valid) begin
+			failed_checks++;
+
+			`uvm_error("GHR_SCOREBOARD_VALID_MISMATCH",$sformatf("output_valid_o mismatch: expected=%0b observed=%0b",expected_valid,observed_valid))
+		end
+		else begin
+			passed_checks++;
+		end
 
 	endfunction
 
+	function automatic string format_packet_array(input logic [PKT_WIDTH-1:0] packets [0:NUM_HASH_TABLES-1]);
+
+		string formatted_value;
+
+		formatted_value = "'{";
+
+		foreach (packets[i]) begin
+			if (i != 0) formatted_value = {formatted_value, ", "};
+
+			formatted_value = {formatted_value,$sformatf("0x%02h", packets[i])};
+		end
+
+		formatted_value = {formatted_value, "}"};
+
+		return formatted_value;
+
+	endfunction
 
 	// Receive one complete cycle from the monitor.
 	function void write(ghr_seq_item tr);
@@ -2269,6 +2375,10 @@ class ghr_scoreboard extends uvm_scoreboard;
 		int unsigned read_bank;
 		int unsigned read_row;
 
+		bit branch_accepted;
+		bit misprediction_accepted;
+		logic expected_output_valid;
+
 		logic [PKT_WIDTH-1:0] expected_incoming_packet;
 
 		logic [PKT_WIDTH-1:0] expected_expiring_packet [0:NUM_HASH_TABLES-1];
@@ -2282,9 +2392,17 @@ class ghr_scoreboard extends uvm_scoreboard;
 			return;
 		end
 
+		branch_accepted = tr.en && tr.br_valid && !tr.recovery_active;
+
+		// recovery_active_i currently blocks branch insertion, but it does not block misprediction handling in the RTL.
+		misprediction_accepted = tr.en && tr.misprediction;
+
+		// A valid output bundle is generated only for an accepted branch.
+		expected_output_valid = branch_accepted;
+		check_output_valid(expected_output_valid,tr.observed_output_valid);
 
 		// A legal rollback depth is between 1 and MAX_PTR-1.
-		if (tr.en && tr.misprediction && (tr.mispredicted_table_depth == 0 || tr.mispredicted_table_depth >= MAX_PTR))
+		if (misprediction_accepted && (tr.mispredicted_table_depth == 0 || tr.mispredicted_table_depth >= MAX_PTR))
 			begin
 
 			failed_checks++;
@@ -2305,43 +2423,40 @@ class ghr_scoreboard extends uvm_scoreboard;
 		// Calculate the next reference head pointer.
 		next_head_ptr = ref_head_ptr;
 
-		if (tr.en) begin
-			case ({tr.misprediction,tr.br_valid})
+		case ({misprediction_accepted, branch_accepted})
 
-				// Idle operation.
-				2'b00: begin
-					next_head_ptr = ref_head_ptr;
-				end
+			// No accepted operation.
+			2'b00: begin
+				next_head_ptr = ref_head_ptr;
+			end
 
-				// Normal branch insertion.
-				2'b01: begin
-					next_head_ptr =	increment_pointer(ref_head_ptr);
-				end
+			// Normal branch insertion.
+			2'b01: begin
+				next_head_ptr = increment_pointer(ref_head_ptr);
+			end
 
-				// Rollback without branch insertion.
-				2'b10: begin
-					next_head_ptr = rollback_ptr;
-				end
+			// Rollback without branch insertion.
+			2'b10: begin
+				next_head_ptr = rollback_ptr;
+			end
 
-				// Rollback followed by replacement branch insertion.
-				2'b11: begin
-					next_head_ptr =	increment_pointer(rollback_ptr);
-				end
+			// Rollback followed by replacement insertion.
+			2'b11: begin
+				next_head_ptr = increment_pointer(rollback_ptr);
+			end
 
-			endcase
-
-		end
+		endcase
 
 
 		// incoming_packet_o is valid only when the GHR accepts
 		// a branch packet.
-		if (tr.en && tr.br_valid)
+		if (branch_accepted) begin
 			expected_incoming_packet = tr.br_packet;
-		else
-			expected_incoming_packet = '0;
-
-
-		check_packet("incoming_packet_o",expected_incoming_packet,tr.observed_incoming_packet);
+			check_packet("incoming_packet_o",expected_incoming_packet,tr.observed_incoming_packet);
+		end
+		else begin
+			expected_incoming_packet = '0;	
+		end
 
 		// Calculate and check all seven expiring history packets.
 		// ************ ???????????? ///////////
@@ -2350,14 +2465,19 @@ class ghr_scoreboard extends uvm_scoreboard;
 		// and the DUT's clocked bank-memory update.
 		for (int i = 0; i < NUM_HASH_TABLES; i++) begin
 
-			target_index = circular_subtract(next_head_ptr,TAP_DEPTHS[i]);
-
-			read_bank = get_bank(target_index);
-			read_row  = get_row(target_index);
-
-			expected_expiring_packet[i] = ref_bank_mem[read_row][read_bank];
-			check_packet($sformatf("expiring_packet_o[%0d]",i),expected_expiring_packet[i],tr.observed_expiring_packet[i]);
-
+			if (expected_output_valid) begin
+		
+				target_index = circular_subtract(next_head_ptr,TAP_DEPTHS[i]);
+				read_bank = get_bank(target_index);
+				read_row  = get_row(target_index);	
+				expected_expiring_packet[i] = ref_bank_mem[read_row][read_bank];
+			end
+			else begin		
+				expected_expiring_packet[i] = '0;
+			end
+		
+			check_packet($sformatf("expiring_packet_o[%0d]", i),expected_expiring_packet[i],tr.observed_expiring_packet[i]);
+		
 		end
 
 		/// adding the disabled cycle check here in the design
@@ -2376,8 +2496,10 @@ class ghr_scoreboard extends uvm_scoreboard;
 			$display("Raw misprediction depth     : %0d",tr.mispredicted_table_depth);
 			$display("Expected incoming_packet_o  : 0x%02h",expected_incoming_packet);
 			$display("Observed incoming_packet_o  : 0x%02h",tr.observed_incoming_packet);
-			$display("Expected expiring_packet_o  : %p",expected_expiring_packet);
-			$display("Observed expiring_packet_o  : %p",tr.observed_expiring_packet);
+			// $display("Expected expiring_packet_o  : %p",expected_expiring_packet);
+			$display("Expected expiring_packet_o : %s",format_packet_array(expected_expiring_packet));
+			// $display("Observed expiring_packet_o  : %p",tr.observed_expiring_packet);
+			$display("Observed expiring_packet_o : %s",format_packet_array(tr.observed_expiring_packet));
 		  
 			$display("Expected state change        : NONE");
 			$display("============================================================\n");
@@ -2402,8 +2524,10 @@ class ghr_scoreboard extends uvm_scoreboard;
 			$display("Calculated next head        : %0d",next_head_ptr);
 			$display("Expected incoming_packet_o  : 0x%02h",expected_incoming_packet);
 			$display("Observed incoming_packet_o  : 0x%02h",tr.observed_incoming_packet);
-			$display("Expected expiring_packet_o  : %p",expected_expiring_packet);
-			$display("Observed expiring_packet_o  : %p",tr.observed_expiring_packet);
+			// $display("Expected expiring_packet_o  : %p",expected_expiring_packet);
+			$display("Expected expiring_packet_o : %s",format_packet_array(expected_expiring_packet));
+			// $display("Observed expiring_packet_o  : %p",tr.observed_expiring_packet);
+			$display("Observed expiring_packet_o : %s",format_packet_array(tr.observed_expiring_packet));
 			$display("Expected memory write       : NONE");
 		  
 			$display("Expected pointer movement   : %0d -> %0d",ref_head_ptr,next_head_ptr);
@@ -2415,7 +2539,7 @@ class ghr_scoreboard extends uvm_scoreboard;
 
 		// Display the complete input/output packet bundle whenever
 		// the GHR accepts a valid branch.
-		if (tr.en && tr.br_valid) begin
+		if (branch_accepted) begin
 
 			$display("\n============================================================");
 			$display("GHR INPUT/OUTPUT PACKET BUNDLE");
@@ -2460,9 +2584,11 @@ class ghr_scoreboard extends uvm_scoreboard;
 			$display("Array index               : {0, 1, 2, 3, 4, 5, 6}");
 			$display("History depth             : {2, 4, 6, 8, 12, 16, 32}");
 
-			$display("Expected expiring_packet_o : %p",expected_expiring_packet);
+			// $display("Expected expiring_packet_o : %p",expected_expiring_packet);
+			$display("Expected expiring_packet_o : %s",format_packet_array(expected_expiring_packet));
 
-			$display("Observed expiring_packet_o : %p",tr.observed_expiring_packet);
+			// $display("Observed expiring_packet_o : %p",tr.observed_expiring_packet);
+			$display("Observed expiring_packet_o : %s",format_packet_array(tr.observed_expiring_packet));
 
 			$display("============================================================\n");
 
@@ -2470,12 +2596,11 @@ class ghr_scoreboard extends uvm_scoreboard;
 
 
 		// Apply the current branch write after checking outputs.
-		if (tr.en && tr.br_valid) begin
+		if (branch_accepted) begin
 
 			branch_write_count++;
-
-			// A normal branch writes at the current free head. A replacement branch writes at the recovered head.
-			if (tr.misprediction)
+		
+			if (misprediction_accepted)
 				write_ptr = rollback_ptr;
 			else
 				write_ptr = ref_head_ptr;
@@ -2488,7 +2613,7 @@ class ghr_scoreboard extends uvm_scoreboard;
 		end
 
 
-		if (tr.en && tr.misprediction) begin
+		if (misprediction_accepted) begin
 			rollback_count++;
 		end
 
@@ -2499,7 +2624,7 @@ class ghr_scoreboard extends uvm_scoreboard;
 
 		// Show the updated physical reference memory after any
 		// operation that changes the GHR state.
-		if (tr.en && (tr.br_valid || tr.misprediction)) 
+		if (branch_accepted || misprediction_accepted)
 		begin
 			display_reference_model("State after GHR operation");
 		end
@@ -2551,12 +2676,16 @@ class ghr_scoreboard extends uvm_scoreboard;
 endclass
 
 // coverage model
-
-class ghr_coverage extends uvm_subscriber #(ghr_seq_item);
+class ghr_coverage extends uvm_component;
 
 	`uvm_component_utils(ghr_coverage)
+
 	localparam int NUM_HASH_TABLES = 7;
+
+	uvm_analysis_imp #(ghr_seq_item, ghr_coverage) analysis_export;
+
 	ghr_seq_item sampled_tr;
+
 
 	covergroup ghr_control_cg;
 
@@ -2568,60 +2697,52 @@ class ghr_coverage extends uvm_subscriber #(ghr_seq_item);
 			bins reset_deasserted = {1};
 		}
 
-		enable_cp: coverpoint sampled_tr.en
-			iff (sampled_tr.rst_n) {
+		enable_cp: coverpoint sampled_tr.en iff (sampled_tr.rst_n) {
 			bins disabled = {0};
 			bins enabled  = {1};
 		}
 
-		branch_valid_cp: coverpoint sampled_tr.br_valid
-			iff (sampled_tr.rst_n) {
+		branch_valid_cp: coverpoint sampled_tr.br_valid iff (sampled_tr.rst_n) {
 			bins invalid_branch = {0};
 			bins valid_branch   = {1};
 		}
 
-		misprediction_cp: coverpoint sampled_tr.misprediction
-			iff (sampled_tr.rst_n) {
+		misprediction_cp: coverpoint sampled_tr.misprediction iff (sampled_tr.rst_n) {
 			bins no_misprediction = {0};
 			bins misprediction    = {1};
 		}
 
-		// GHR operating modes: 00 = idle || 01 = branch insertion || 10 = rollback || 11 = rollback followed by branch insertion
 		operation_cp: coverpoint {sampled_tr.misprediction, sampled_tr.br_valid}
-			
 			iff (sampled_tr.rst_n && sampled_tr.en) {
 
-			bins idle                  = {2'b00};
-			bins branch_insert         = {2'b01};
-			bins rollback              = {2'b10};
-			bins rollback_and_insert   = {2'b11};
+			bins idle                = {2'b00};
+			bins branch_insert       = {2'b01};
+			bins rollback            = {2'b10};
+			bins rollback_and_insert = {2'b11};
 
-			bins idle_to_branch        = (2'b00 => 2'b01);
-			bins idle_to_rollback      = (2'b00 => 2'b10);
-			bins idle_to_combined      = (2'b00 => 2'b11);
+			bins idle_to_branch       = (2'b00 => 2'b01);
+			bins idle_to_rollback     = (2'b00 => 2'b10);
+			bins idle_to_combined     = (2'b00 => 2'b11);
 
-			bins branch_to_idle        = (2'b01 => 2'b00);
-			bins branch_to_branch      = (2'b01 => 2'b01);
-			bins branch_to_rollback    = (2'b01 => 2'b10);
-			bins branch_to_combined    = (2'b01 => 2'b11);
+			bins branch_to_idle       = (2'b01 => 2'b00);
+			bins branch_to_branch     = (2'b01 => 2'b01);
+			bins branch_to_rollback   = (2'b01 => 2'b10);
+			bins branch_to_combined   = (2'b01 => 2'b11);
 
-			bins rollback_to_idle      = (2'b10 => 2'b00);
-			bins rollback_to_branch    = (2'b10 => 2'b01);
-			bins rollback_to_rollback  = (2'b10 => 2'b10);
-			bins rollback_to_combined  = (2'b10 => 2'b11);
+			bins rollback_to_idle     = (2'b10 => 2'b00);
+			bins rollback_to_branch   = (2'b10 => 2'b01);
+			bins rollback_to_rollback = (2'b10 => 2'b10);
+			bins rollback_to_combined = (2'b10 => 2'b11);
 
-			bins combined_to_idle      = (2'b11 => 2'b00);
-			bins combined_to_branch    = (2'b11 => 2'b01);
-			bins combined_to_rollback  = (2'b11 => 2'b10);
-			bins combined_to_combined  = (2'b11 => 2'b11);
+			bins combined_to_idle     = (2'b11 => 2'b00);
+			bins combined_to_branch   = (2'b11 => 2'b01);
+			bins combined_to_rollback = (2'b11 => 2'b10);
+			bins combined_to_combined = (2'b11 => 2'b11);
 		}
 
-		rollback_depth_cp:	coverpoint sampled_tr.mispredicted_table_depth
-		iff (
-			sampled_tr.rst_n &&
-			sampled_tr.en &&
-			sampled_tr.misprediction
-		) {
+		rollback_depth_cp: coverpoint sampled_tr.mispredicted_table_depth
+			iff (sampled_tr.rst_n && sampled_tr.en && sampled_tr.misprediction) {
+
 			bins minimum_depth = {1};
 			bins low_depth     = {[2:8]};
 			bins medium_depth  = {[9:17]};
@@ -2633,31 +2754,22 @@ class ghr_coverage extends uvm_subscriber #(ghr_seq_item);
 		}
 
 		branch_type_cp: coverpoint sampled_tr.br_packet[6]
-		iff (
-			sampled_tr.rst_n &&
-			sampled_tr.en &&
-			sampled_tr.br_valid
-		) {
+			iff (sampled_tr.rst_n && sampled_tr.en && sampled_tr.br_valid) {
+
 			bins type_0 = {0};
 			bins type_1 = {1};
 		}
 
 		taken_cp: coverpoint sampled_tr.br_packet[5]
-		iff (
-			sampled_tr.rst_n &&
-			sampled_tr.en &&
-			sampled_tr.br_valid
-		) {
+			iff (sampled_tr.rst_n && sampled_tr.en && sampled_tr.br_valid) {
+
 			bins not_taken = {0};
 			bins taken     = {1};
 		}
 
 		target_cp: coverpoint sampled_tr.br_packet[4:0]
-		iff (
-			sampled_tr.rst_n &&
-			sampled_tr.en &&
-			sampled_tr.br_valid
-		) {
+			iff (sampled_tr.rst_n && sampled_tr.en && sampled_tr.br_valid) {
+
 			bins zero_target = {0};
 			bins low_target  = {[1:15]};
 			bins high_target = {[16:30]};
@@ -2671,11 +2783,9 @@ class ghr_coverage extends uvm_subscriber #(ghr_seq_item);
 	endgroup
 
 
-	// This covergroup checks whether every hash-table tap has
-	// produced both zero and nonzero expiring packets.
 	covergroup expiring_packet_cg with function sample(
 		input int unsigned table_index,
-		input logic [6:0]  expiring_packet
+		input logic [6:0] expiring_packet
 	);
 
 		option.per_instance = 1;
@@ -2691,48 +2801,55 @@ class ghr_coverage extends uvm_subscriber #(ghr_seq_item);
 		}
 
 		table_value_cross: cross table_index_cp, expiring_value_cp;
+
 	endgroup
 
 
-	function new(string name = "ghr_coverage",uvm_component parent = null);
+	function new(string name = "ghr_coverage", uvm_component parent = null);
+
 		super.new(name, parent);
+
+		analysis_export = new("analysis_export", this);
+
 		ghr_control_cg = new();
 		expiring_packet_cg = new();
+
 	endfunction
 
 
-	virtual function void write(ghr_seq_item tr);
+	function void write(input ghr_seq_item tr);
 
 		sampled_tr = tr;
 		ghr_control_cg.sample();
 
-		if (tr.rst_n) begin
+		if (tr.rst_n && tr.observed_output_valid) begin
 			foreach (tr.observed_expiring_packet[i]) begin
-				expiring_packet_cg.sample(i,tr.observed_expiring_packet[i]);
+				expiring_packet_cg.sample(i, tr.observed_expiring_packet[i]);
 			end
 		end
 
-	endfunction
+	endfunction : write
 
 
 	virtual function void report_phase(uvm_phase phase);
 
 		super.report_phase(phase);
 
-		`uvm_info("GHR_COVERAGE_SUMMARY",
+		`uvm_info(
+			"GHR_COVERAGE_SUMMARY",
 			$sformatf(
-			{
-			"\n----------------------------------------\n",
-			"GHR FUNCTIONAL COVERAGE\n",
-			"----------------------------------------\n",
-			"Control coverage         : %0.2f%%\n",
-			"Expiring packet coverage : %0.2f%%\n",
-			"----------------------------------------"
-			},
-			ghr_control_cg.get_coverage(),
-			expiring_packet_cg.get_coverage()
-		),
-		UVM_NONE
+				{
+					"\n----------------------------------------\n",
+					"GHR FUNCTIONAL COVERAGE\n",
+					"----------------------------------------\n",
+					"Control coverage         : %0.2f%%\n",
+					"Expiring packet coverage : %0.2f%%\n",
+					"----------------------------------------"
+				},
+				ghr_control_cg.get_coverage(),
+				expiring_packet_cg.get_coverage()
+			),
+			UVM_NONE
 		)
 
 	endfunction
@@ -2927,11 +3044,16 @@ module tb_top;
 	always #5 clk = ~clk;
 
 	// GHR interface instance.
-	ghr_if #(
-			.PKT_WIDTH       (PKT_WIDTH),
-			.NUM_HASH_TABLES (NUM_HASH_TABLES)
-		) ghr_vif (
-			.clk (clk)
+	// ghr_if #(
+	// 		.PKT_WIDTH       (PKT_WIDTH),
+	// 		.NUM_HASH_TABLES (NUM_HASH_TABLES)
+	// 	) ghr_vif (
+	// 		.clk (clk)
+	// );
+
+	//just for the design for timing
+	ghr_if ghr_vif (
+		.clk (clk)
 	);
 
 	initial begin
@@ -2942,6 +3064,7 @@ module tb_top;
 		ghr_vif.br_packet_i                 = '0;
 		ghr_vif.misprediction_i             = 1'b0;
 		ghr_vif.mispredicted_table_depth_i  = '0;
+		ghr_vif.recovery_active_i 			= 1'b0;
 
 		// Reset active for three complete cycles.
 		repeat (3)
@@ -2967,9 +3090,11 @@ module tb_top;
 
 		.misprediction_i             (ghr_vif.misprediction_i),
 		.mispredicted_table_depth_i  (ghr_vif.mispredicted_table_depth_i),
+		.recovery_active_i 			 (ghr_vif.recovery_active_i),
 
 		.incoming_packet_o           (ghr_vif.incoming_packet_o),
-		.expiring_packet_o           (ghr_vif.expiring_packet_o)
+		.expiring_packet_o           (ghr_vif.expiring_packet_o),
+		.output_valid_o 			 (ghr_vif.output_valid_o)
 	);
 
 
