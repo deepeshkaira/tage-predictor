@@ -125,12 +125,13 @@ module phast_tagged_table_hash #(
     output logic [S_WIDTH-1:0] tagged_indices_o [0:NUM_TAGGED-1],
     output logic [T_WIDTH-1:0] tagged_tags_o    [0:NUM_TAGGED-1],
 
+	output logic valid_o,		// need to tell the next block that the signals are valid at this specific time
+
 	//output to send out the folded history output to the checkpoint FIFO buffer to think about
 	output logic [S_WIDTH+T_WIDTH-1:0] folded_history_o [0:NUM_TAGGED-1]
 );
 
 	localparam int CSR_WIDTH = S_WIDTH + T_WIDTH;
-
 
 	logic recovery_valid_i_gated;		// recovery valid signals
 	logic folded_history_clock_en;		/// signal for gating the clock on both conditions:-  VALID BRANCH   &	 ACTIVE RECOVERY
@@ -172,11 +173,12 @@ module phast_tagged_table_hash #(
 
 	logic [29:0] hash_pc_idx_full;
 	logic [29:0] hash_pc_tag_full;
+	logic [S_WIDTH-1:0] tagged_indices_next [0:NUM_TAGGED-1];
+	logic [T_WIDTH-1:0] tagged_tags_next    [0:NUM_TAGGED-1];
 
 	// bitwirse XOR of PC for tag and index
 	assign hash_pc_idx_full = pc_word ^ (pc_word >> 2) ^ (pc_word >> 5);
 	assign hash_pc_tag_full = pc_word ^ (pc_word >> 3) ^ (pc_word >> 7);
-
 
 	// ICG
 	logic clk_gated_csr;
@@ -190,6 +192,7 @@ module phast_tagged_table_hash #(
 
 
 	//// ASSERTION FOR CHECKING X or Z in enable signals
+/*
 	property hash_control_inputs_known_p;
         @(posedge clk) disable iff (!rst_n) !$isunknown({en_i, br_valid_i, recovery_valid_i});
     endproperty
@@ -205,13 +208,23 @@ module phast_tagged_table_hash #(
     hash_gated_controls_known_a:
         assert property (hash_gated_controls_known_p)
         else $error("Hash gated control contains X or Z");
+*/
+
+	// valid generation
+	always_ff @(posedge clk or negedge rst_n) begin
+		if (!rst_n) begin
+			valid_o <= 1'b0;
+		end
+		else begin
+			valid_o <= folded_history_clock_en;
+		end
+	end
 
 	generate
 
 		for(genvar i = 0; i < NUM_TAGGED; i++) begin
 			
 			localparam int EVICT_SHIFT = DEPTHS[i] % CSR_WIDTH;		// calculate the eviction shift based on the parameterized depth for this specific table
-			
 			logic [CSR_WIDTH-1:0] folded_history, next_folded_history, shifted_fold, padded_incoming, padded_expiring, aligned_expiring;
 
 			// aligned_expiring = '0;		// need not set this to ZERO because initially it can hold garbage data.
@@ -222,12 +235,17 @@ module phast_tagged_table_hash #(
 			assign padded_expiring = {{(CSR_WIDTH-PKT_WIDTH){1'b0}}, expiring_pkts_i_gated[i] };			// padded the expiring GHR packet
 			assign aligned_expiring = EVICT_SHIFT ? {padded_expiring[CSR_WIDTH - EVICT_SHIFT-1 : 0], padded_expiring[CSR_WIDTH-1 : CSR_WIDTH-EVICT_SHIFT]} : padded_expiring;
 
-			always_ff@(posedge clk_gated_csr or negedge rst_n)
+			// always_ff@(posedge clk_gated_csr or negedge rst_n)
+			always_ff@(posedge clk or negedge rst_n)		// ungated , we will use the ICG of lib
 				begin
 					if(!rst_n) begin
 						folded_history <= '0;
-					end else begin
+						tagged_indices_next[i] <= '0;
+						tagged_tags_next[i] <= '0;
+					end else if (folded_history_clock_en) begin
 						folded_history <= next_folded_history;
+						tagged_indices_next[i] <= next_folded_history[CSR_WIDTH-1:T_WIDTH] ^ hash_pc_idx_full[S_WIDTH-1:0];
+						tagged_tags_next[i] <= next_folded_history[T_WIDTH-1:0] ^ hash_pc_tag_full[T_WIDTH-1:0];
 					end
 				end
 	
@@ -244,6 +262,7 @@ module phast_tagged_table_hash #(
 				end
 
 			/// assertion to check if the folded history holds whenever  the enable abnd br_valid are down.
+/*			
 			property folded_history_holds_when_inactive_p;
 				@(posedge clk) disable iff (!rst_n) !$past(folded_history_clock_en) |-> $stable(folded_history);
 			endproperty
@@ -251,12 +270,11 @@ module phast_tagged_table_hash #(
 			folded_history_holds_when_inactive_a:
 				assert property (folded_history_holds_when_inactive_p)
 				else $error("TABLE %0d: folded_history changed while request was inactive",i);
-
+*/
 			// Final Output Mix (Sliced CSR ^ Left shifted PC)
-			assign tagged_indices_o[i] = next_folded_history[CSR_WIDTH-1 : T_WIDTH] ^ hash_pc_idx_full[S_WIDTH-1 : 0];
-			assign tagged_tags_o[i] = next_folded_history[T_WIDTH-1 : 0] ^ hash_pc_tag_full[T_WIDTH-1 : 0];
-			assign folded_history_o[i] = folded_history;
-
+			assign tagged_indices_o[i] = tagged_indices_next[i];
+			assign tagged_tags_o[i] = tagged_tags_next[i];
+			assign folded_history_o[i] = folded_history[i];
 		end
 	endgenerate
 

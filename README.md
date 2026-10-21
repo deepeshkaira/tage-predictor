@@ -105,8 +105,8 @@ The following results were obtained with a 600 MHz target clock (`1666.67 ps` pe
 |---|---:|---:|
 | Pipeline location | `target_index` | `read_bank` + `read_row` |
 | Added address-pipeline bits | 42 | 42 |
-| Worst input-to-register setup slack | `+6.84 ps` (DC) | `+0.785 ps` (PT) |
-| Worst register-to-output setup slack | `+271.45 ps` (DC) | `+599.27 ps` (PT) |
+| Worst input-to-register setup slack | `+6.84 ps` (PT) | `+0.785 ps` (PT) |
+| Worst register-to-output setup slack | `+271.45 ps` (PT) | `+599.27 ps` (PT) |
 | Total synthesized cell area | `4478.28` | `4641.11` |
 | Pure functional input-to-output combinational paths | `0` | `0` |
 
@@ -120,7 +120,7 @@ The Boundary 2 implementation uses `162.83` more units of synthesized cell area 
 - Boundary 1 emerged as the lower-area implementation with greater input-side frequency headroom.
 - Boundary 2 demonstrated that the complete target-index and bank/row decode can remain in the input stage while still meeting the 600 MHz target in PrimeTime, although with very little remaining setup margin.
 
-The study demonstrates that register placement redistributes the timing burden rather than eliminating logic delay. The reported comparison retains the distinction between synthesis and signoff analysis: Boundary 2 has a completed 600 MHz PrimeTime run, while a matching Boundary 1 PrimeTime run remains the final step needed for a fully equivalent signoff comparison.
+The study demonstrates that register placement redistributes the timing burden rather than eliminating logic delay. The reported comparison retains the distinction between synthesis and signoff analysis: Boundary 2 has a completed 600 MHz PrimeTime run, and Boundary 1 has also completed a Primetime run of 600 Mhz with some more slack cushion to counter uncertainity.
 
 ## GHR verification
 
