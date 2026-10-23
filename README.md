@@ -1,6 +1,9 @@
 # MDP TAGE Predictor
 
-This repository documents the design, verification, low-power implementation, and timing optimization of an MDP TAGE predictor for speculative loads at the load-store stage of a processor pipeline. A major part of the work focused on the Global History Register (GHR): identifying its longest combinational timing path, tracing that path to the synthesized cell level, and implementing two pipelined alternatives for timing closure.
+This repository documents the design, verification, low-power implementation, and timing optimization of an MDP TAGE predictor for speculative loads at the load-store stage of a processor pipeline. 
+
+Currently we are going block by block in the design and started with major part focused on the Global History Register (GHR): identifying its longest combinational timing path, tracing that path to the synthesized cell level, and implementing two pipelined alternatives for timing closure.
+
 
 > **GHR optimization result:** the original functional input-to-output timing arc was split into registered stages. Both implemented boundaries reduced the reported pure input-to-output combinational path count to zero. Boundary 2 was subsequently confirmed in PrimeTime at a 600 MHz target clock, while Boundary 1 provided the better synthesis-stage input margin and lower area.
 
@@ -121,6 +124,9 @@ The Boundary 2 implementation uses `162.83` more units of synthesized cell area 
 - Boundary 2 demonstrated that the complete target-index and bank/row decode can remain in the input stage while still meeting the 600 MHz target in PrimeTime, although with very little remaining setup margin.
 
 The study demonstrates that register placement redistributes the timing burden rather than eliminating logic delay. The reported comparison retains the distinction between synthesis and signoff analysis: Boundary 2 has a completed 600 MHz PrimeTime run, and Boundary 1 has also completed a Primetime run of 600 Mhz with some more slack cushion to counter uncertainity.
+
+
+## NOW, there is one more challenge i.e. the cushion is there for the BOUNDARY 1 implementation - but what if I need increase teh frequency of the design. So, I have come up with an idea that will majorly change the design image uploaded above and will need a re-verification of the GHR block. But, one good thing with the re-architecting of this design block is that I will be able to improve the frequency of the design a lot more without worrying about the interface inputs and outputs. It also gives a leverage to add retention logic cells at input and output of the design block - inconsideration for power ON and OFF. HOPEFULLY IT WORKS.
 
 ## GHR verification
 
