@@ -133,3 +133,88 @@ The study demonstrates that register placement redistributes the timing burden r
 The GHR UVM environment was updated to account for the added pipeline latency. The reference model and directed sequences check normal insertion, pointer wraparound, rollback, rollback with replacement, enable gating, and all seven expiring-history outputs. Repeated rollback scenarios were also added to exercise recovery behavior across multiple pointer positions.
 
 Testbench: [`TB_GHR - timing_boundary.sv`](Verification/Verification%20Block%20Level/GHR%20verification/TB_GHR%20-%20timing_boundary.sv)
+
+---
+
+## Hash Address Generator
+
+The hash-address-generation block converts the current load PC and the maintained branch-history state into the indices and tags used to access the base and tagged predictor tables. The implementation separates the direct-mapped base-table calculation from seven parallel tagged-table hash engines.
+
+### Block organization
+
+- The base-table index is taken from the word-aligned load PC. With the default 10-bit base index, the block registers `load_pc_i[11:2]`.
+- Seven tagged-table engines correspond to geometric history depths 2, 4, 6, 8, 12, 16, and 32.
+- Each tagged engine maintains a 23-bit folded-history state, formed from the default 7-bit index width and 16-bit tag width.
+- The incoming 7-bit GHR packet is zero-extended and XORed into the folded history.
+- The packet expiring from each geometric-history window is zero-extended, rotated according to `DEPTHS[i] % CSR_WIDTH`, and XORed out of the folded state.
+- Separate PC mixing functions are used for the tagged-table index and tag:
+  - Index mix: `pc_word ^ (pc_word >> 2) ^ (pc_word >> 5)`.
+  - Tag mix: `pc_word ^ (pc_word >> 3) ^ (pc_word >> 7)`.
+- The final tagged index and tag are produced by XORing the relevant folded-history bits with the corresponding PC hash.
+
+The normal folded-history update performed for each tagged table is:
+
+```text
+next_folded_history = rotate_left(folded_history, 1)
+                      XOR padded_incoming_packet
+                      XOR depth_aligned_expiring_packet
+```
+
+### Recovery and low-power behavior
+
+Normal branch folding and checkpoint recovery share the same registered folded-history state. A valid recovery has priority over a normal branch update: the checkpointed folded-history vector from the FIFO is loaded directly into the seven folding engines, after which the table indices and tags are regenerated from the restored history and the load PC.
+
+The implementation also includes operand isolation and clock-enable generation:
+
+- `br_valid_i_gated` allows normal folding only when the block is enabled and recovery is inactive.
+- `recovery_valid_i_gated` qualifies restoration data from the checkpoint FIFO.
+- `folded_history_clock_en` is asserted for either a valid branch update or a valid recovery.
+- The registered `valid_o` indicates when the folded-history and hashed table outputs correspond to an accepted operation.
+- `folded_history_o` exposes the maintained state so it can be checkpointed for later misprediction recovery.
+
+![Hash address generator datapath](docs/images/hash_address_generator/hash_address_generator_datapath.png)
+
+RTL: [`2_LP_Hash_and_fold_logic.sv`](2_LP_Hash_and_fold_logic.sv)
+
+Verification plan: [`Tagged HASH address generator verification plan`](Verification/Verification%20Block%20Level/Tagged%20HASH%20address%20generator/Verification%20plan.docx)
+
+---
+
+## Checkpoint FIFO Buffer
+
+The checkpoint FIFO preserves speculative folded-history states so that the hash-address-generation block can restore a known-good history after a branch misprediction. With the default parameters, the FIFO contains 16 entries; every entry stores seven 23-bit folded-history values, for a total checkpoint payload of 161 bits per entry.
+
+### FIFO operation
+
+- Independent read and write pointers select the checkpoint to restore and the location for the next speculative snapshot.
+- Each pointer contains an extra wrap bit. Equal complete pointers indicate empty, while equal address bits with different wrap bits indicate full.
+- A write is accepted only when the block is enabled and the FIFO has space.
+- When the FIFO is full, a write can still be accepted if a read is accepted in the same cycle.
+- A read is accepted only when the block is enabled and the FIFO is not empty.
+- Separate read and write clock-gating enables prevent inactive pointer and memory operations from toggling.
+- The synchronous read path captures all seven folded-history values in `read_data_q` before advancing the read pointer.
+- Registered `fifo_full_o` and `fifo_empty_o` flags are calculated from the next pointer values so simultaneous operations are represented correctly.
+
+### Misprediction recovery interface
+
+The FIFO does not continuously expose arbitrary memory contents as valid recovery state. A recovery transaction requires an accepted read together with a qualified misprediction. The read checkpoint is first captured in the output register, and `recovery_valid_o` then qualifies the restored seven-entry folded-history vector for the downstream hash block.
+
+This creates a defined recovery boundary between the two blocks:
+
+```text
+Speculative branch updates
+        -> save folded_history_o in checkpoint FIFO
+        -> misprediction selects and reads the required checkpoint
+        -> recovery_valid_o qualifies recovery_folded_history_o
+        -> hash engines reload the unstale folded-history state
+```
+
+When `recovery_valid_o` is low, the recovery data outputs are driven to zero so inactive FIFO data is not interpreted as a valid restore operation.
+
+![Checkpoint FIFO datapath](docs/images/checkpoint_fifo/checkpoint_fifo_datapath.png)
+
+RTL: [`17_checkpoint_fifo_buffer.sv`](17_checkpoint_fifo_buffer.sv)
+
+Verification: [`TB_checkpoint_fifo.sv`](Verification/TB_checkpoint_fifo.sv)
+
+Integrated GHR/FIFO/hash verification: [`GHR_HASH_Address_CHECKPT_FIFO verification`](Verification/Verification%20Block%20Level/GHR_HASH_Address_CHECKPT_FIFO%20verification/)
