@@ -1,7 +1,8 @@
 `timescale 1ns/1ps
 
+
 // this block defines the global history buffer which stores the value for the history along with TAGS.
-module LP_ghr_block #(
+module LP_ghr_block_2reg #(
 	// give width parameters here
 	parameter PKT_WIDTH = 7,	//{type[1],taken[1],target[5]}  /// THE target is the lowest 5 bits of the target addreess.
 	parameter NUM_BANKS = 9,
@@ -36,7 +37,7 @@ module LP_ghr_block #(
 	// output logic [PKT_WIDTH-1:0] recovery_incoming_packet_o,	// next_old GHR packet being replayed
 	// output logic [PKT_WIDTH-1:0] recovery_expiring_packet_o [0:NUM_HASH_TABLES-1],	// packet going out from history window during replay
 	// output logic recovery_last_o	// last recovey packet 
-);
+	);
 
 	//registered inputs declaration
 	logic                         br_valid_i_reg;
@@ -63,7 +64,7 @@ module LP_ghr_block #(
 	logic bank_we [0:NUM_BANKS-1];
 	logic gated_bank_clk [0:NUM_BANKS-1];
 
-	localparam int TOTAL_CAPACITY = NUM_BANKS * ENTRIES_PER_BANK;
+	localparam int TOTAL_CAPACITY = (NUM_BANKS * ENTRIES_PER_BANK);
 	localparam logic [5:0] DEPTHS [0:NUM_HASH_TABLES-1] = '{6'd2, 6'd4, 6'd6, 6'd8, 6'd12, 6'd16, 6'd32};
 
 	//registers input
@@ -77,27 +78,26 @@ module LP_ghr_block #(
 				recovery_active_i_reg           <= 1'b0;
 				input_stage_valid_reg			<= 1'b0;
 			end else begin
-				input_stage_valid_reg			<= en_i;
+				// input_stage_valid_reg			<= en_i;
 				if (en_i) begin
 					br_valid_i_reg                  <= br_valid_i;
 					br_packet_i_reg                 <= br_packet_i;
 					misprediction_i_reg             <= misprediction_i;
 					mispredicted_table_depth_i_reg  <= mispredicted_table_depth_i;
 					recovery_active_i_reg           <= recovery_active_i;	
+					input_stage_valid_reg			<= br_valid_i || misprediction_i;
 				end
 			end
 		end
 
 	assign br_valid_and_recovery_not_active = input_stage_valid_reg && br_valid_i_reg && (!recovery_active_i_reg);
-	assign ptr_update_en = input_stage_valid_reg && (br_valid_and_recovery_not_active || misprediction_i_reg);
-
+	
 	/// pointers for the memory banks
 	logic [5:0] head_ptr;
 	logic [5:0] next_head_ptr;
 	logic [5:0] incremented_ptr;
 	logic [5:0] rollback_ptr;
 	logic [5:0] rollback_incremented_ptr;
-
 
 	/// calculation of normal increment , rollback and rollback_increment_case
 	always_comb begin
@@ -118,9 +118,9 @@ module LP_ghr_block #(
 			rollback_incremented_ptr = rollback_ptr + 1'b1;
 	end
 
-	// next head ptr calculation
+	// next head ptr calculation	
 	always_comb begin
-		next_head_ptr = head_ptr;
+		// next_head_ptr = head_ptr;
 
 		case ({input_stage_valid_reg && misprediction_i_reg,br_valid_and_recovery_not_active})
 			2'b00: next_head_ptr = head_ptr;
@@ -130,14 +130,31 @@ module LP_ghr_block #(
 			default: next_head_ptr = head_ptr;
 		endcase
 	end
+	
 
-	//register for the head pointer
+	// enable logic for intermediate ptr_update_en
+	assign ptr_update_en = en_i && (!recovery_active_i) && (br_valid_i || misprediction_i);
+	// assign ptr_update_en = input_stage_valid_reg && (!recovery_active_i_reg) && (br_valid_i_reg || misprediction_i_reg);
+
+	//register for the head pointer	
 	always_ff @(posedge clk or negedge rst_n) begin
-		if (!rst_n)
+		if (!rst_n) begin
 			head_ptr <= '0;
+		//	next_head_ptr <= '0;
+		end
 		// else if (ptr_update_en)
-		else if (en_i)
+		else if (ptr_update_en) begin
 			head_ptr <= next_head_ptr;
+/*
+			case ({misprediction_i_reg,br_valid_i})
+				2'b00: next_head_ptr <= head_ptr;
+				2'b01: next_head_ptr <= incremented_ptr;
+				2'b10: next_head_ptr <= rollback_ptr;
+				2'b11: next_head_ptr <= rollback_incremented_ptr;
+				default: next_head_ptr <= head_ptr;
+			endcase
+*/
+		end
 	end
 
 	// selection of write pointer
@@ -162,7 +179,8 @@ module LP_ghr_block #(
 
 	always_comb begin
 		for (int b = 0; b < NUM_BANKS; b++)
-			bank_we[b] = br_valid_and_recovery_not_active && (write_bank == b);
+			//bank_we[b] = br_valid_and_recovery_not_active && (write_bank == b);
+			bank_we[b] = ptr_update_en && (write_bank == b);
 	end
 
 
@@ -175,12 +193,14 @@ module LP_ghr_block #(
 				.clk_gated_o (gated_bank_clk[b])
 			);
 	
-			always @(posedge gated_bank_clk[b] or negedge rst_n) begin
+//			always @(posedge gated_bank_clk[b] or negedge rst_n) begin
+			always @(posedge clk or negedge rst_n) begin
 				if (!rst_n) begin
 					for (int r = 0; r < ENTRIES_PER_BANK; r++)
 						bank_mem[r][b] <= '0;
 				end
-				else begin
+//				else if (en_i && br_valid_i) begin
+				else if (bank_we[b]) begin
 					bank_mem[write_row][b] <= br_packet_i_reg;
 				end
 			end
@@ -216,6 +236,19 @@ module LP_ghr_block #(
 			);
 	
 			assign expiring_packet_next[i] = bank_mem[read_row[i]][read_bank[i]];
+/*
+			always @(posedge clk or negedge rst_n) begin
+				if (!rst_n) begin
+					for (int i = 0; i < NUM_HASH_TABLES; i++) begin
+						expiring_packet_o_reg[i] <= '0;
+					end
+				end else if(en_i) begin
+					for (int i = 0; i < NUM_HASH_TABLES; i++) begin
+						expiring_packet_o_reg[i] <= expiring_packet_next[i];
+					end
+				end
+			end
+*/
 			assign expiring_packet_o[i] = expiring_packet_o_reg[i];
 
 		end
@@ -235,6 +268,7 @@ module LP_ghr_block #(
 		end
 		else if (en_i) begin
 			output_valid_o_reg <= output_valid_next;
+			// if (output_valid_o_reg) begin
 			if (output_valid_next) begin
 				incoming_packet_o_reg <= incoming_packet_next;
 				for (int i = 0; i < NUM_HASH_TABLES; i++) begin
