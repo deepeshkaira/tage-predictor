@@ -63,9 +63,12 @@ module LP_ghr_block_2reg #(
 
 	logic bank_we [0:NUM_BANKS-1];
 	logic gated_bank_clk [0:NUM_BANKS-1];
+	logic [PKT_WIDTH-1:0] br_packet_i_next;
+	logic [5:0] mispredicted_table_depth_i_next;
 
 	localparam int TOTAL_CAPACITY = (NUM_BANKS * ENTRIES_PER_BANK);
 	localparam logic [5:0] DEPTHS [0:NUM_HASH_TABLES-1] = '{6'd2, 6'd4, 6'd6, 6'd8, 6'd12, 6'd16, 6'd32};
+	
 
 	//registers input
 	always_ff @(posedge clk or negedge rst_n)
@@ -78,17 +81,22 @@ module LP_ghr_block_2reg #(
 				recovery_active_i_reg           <= 1'b0;
 				input_stage_valid_reg			<= 1'b0;
 			end else begin
-				// input_stage_valid_reg			<= en_i;
+				//input_stage_valid_reg			<= en_i;
 				if (en_i) begin
 					br_valid_i_reg                  <= br_valid_i;
-					br_packet_i_reg                 <= br_packet_i;
+					br_packet_i_reg                 <= br_packet_i_next;
 					misprediction_i_reg             <= misprediction_i;
-					mispredicted_table_depth_i_reg  <= mispredicted_table_depth_i;
+					mispredicted_table_depth_i_reg  <= mispredicted_table_depth_i_next;
 					recovery_active_i_reg           <= recovery_active_i;	
-					input_stage_valid_reg			<= br_valid_i || misprediction_i;
+					input_stage_valid_reg		<= br_valid_i || misprediction_i;
 				end
 			end
 		end
+
+	always_comb begin
+		mispredicted_table_depth_i_next = misprediction_i ? mispredicted_table_depth_i : mispredicted_table_depth_i_reg;
+		br_packet_i_next = br_valid_i ? br_packet_i : br_packet_i_reg;
+	end
 
 	assign br_valid_and_recovery_not_active = input_stage_valid_reg && br_valid_i_reg && (!recovery_active_i_reg);
 	
@@ -98,24 +106,37 @@ module LP_ghr_block_2reg #(
 	logic [5:0] incremented_ptr;
 	logic [5:0] rollback_ptr;
 	logic [5:0] rollback_incremented_ptr;
+	logic [6:0] head_ptr_plus_one_ext;
 
 	/// calculation of normal increment , rollback and rollback_increment_case
 	always_comb begin
 
-		if (head_ptr == MAX_PTR - 1)		// Normal increment
+		head_ptr_plus_one_ext = {1'b0, head_ptr} + 7'd1;
+
+		if (head_ptr == MAX_PTR - 1)				// Normal increment
 			incremented_ptr = '0;
 		else
 			incremented_ptr = head_ptr + 1'b1;
-	
-		if (head_ptr >= mispredicted_table_depth_i_reg)		// rollback only, no incoming writes
+		
+		if(!misprediction_depth_valid)				// for invalid depth we have to go back to the head pointer only
+			rollback_ptr = head_ptr;	
+		else if (head_ptr >= mispredicted_table_depth_i_reg)		// rollback only, no incoming writes
 			rollback_ptr = head_ptr - mispredicted_table_depth_i_reg;
 		else
 			rollback_ptr =	head_ptr + MAX_PTR - mispredicted_table_depth_i_reg;
 	
-		if (rollback_ptr == MAX_PTR - 1)		// rollback with incoming writes
-			rollback_incremented_ptr = '0;
+		// if (rollback_ptr == MAX_PTR - 1)			// rollback with incoming writes
+		// 	rollback_incremented_ptr = '0;
+		// else
+		// 	rollback_incremented_ptr = rollback_ptr + 1'b1;
+
+		if (!misprediction_depth_valid)
+			rollback_incremented_ptr = incremented_ptr;
+		else if (head_ptr_plus_one_ext >= {1'b0, mispredicted_table_depth_i_reg})
+			rollback_incremented_ptr = head_ptr_plus_one_ext - {1'b0, mispredicted_table_depth_i_reg};
 		else
-			rollback_incremented_ptr = rollback_ptr + 1'b1;
+			rollback_incremented_ptr = head_ptr_plus_one_ext + 7'd36 - {1'b0, mispredicted_table_depth_i_reg};	
+		
 	end
 
 	// next head ptr calculation	
@@ -133,8 +154,8 @@ module LP_ghr_block_2reg #(
 	
 
 	// enable logic for intermediate ptr_update_en
-	assign ptr_update_en = en_i && (!recovery_active_i) && (br_valid_i || misprediction_i);
-	// assign ptr_update_en = input_stage_valid_reg && (!recovery_active_i_reg) && (br_valid_i_reg || misprediction_i_reg);
+	// assign ptr_update_en = en_i && (!recovery_active_i) && (br_valid_i || misprediction_i);
+	 assign ptr_update_en = en_i && input_stage_valid_reg && (!recovery_active_i_reg) && (br_valid_i_reg || misprediction_i_reg);
 
 	//register for the head pointer	
 	always_ff @(posedge clk or negedge rst_n) begin
@@ -179,8 +200,8 @@ module LP_ghr_block_2reg #(
 
 	always_comb begin
 		for (int b = 0; b < NUM_BANKS; b++)
-			//bank_we[b] = br_valid_and_recovery_not_active && (write_bank == b);
-			bank_we[b] = ptr_update_en && (write_bank == b);
+			bank_we[b] = br_valid_and_recovery_not_active && (write_bank == b);
+			//bank_we[b] = ptr_update_en && (write_bank == b);
 	end
 
 
@@ -268,8 +289,8 @@ module LP_ghr_block_2reg #(
 		end
 		else if (en_i) begin
 			output_valid_o_reg <= output_valid_next;
-			// if (output_valid_o_reg) begin
 			if (output_valid_next) begin
+			// if (output_valid_o_reg) begin
 				incoming_packet_o_reg <= incoming_packet_next;
 				for (int i = 0; i < NUM_HASH_TABLES; i++) begin
 					expiring_packet_o_reg[i] <= expiring_packet_next[i];

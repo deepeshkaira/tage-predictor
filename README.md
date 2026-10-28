@@ -128,6 +128,86 @@ The study demonstrates that register placement redistributes the timing burden r
 
 ## NOW, there is one more challenge i.e. the cushion is there for the BOUNDARY 1 implementation - but what if I need increase teh frequency of the design. So, I have come up with an idea that will majorly change the design image uploaded above and will need a re-verification of the GHR block. But, one good thing with the re-architecting of this design block is that I will be able to improve the frequency of the design a lot more without worrying about the interface inputs and outputs. It also gives a leverage to add retention logic cells at input and output of the design block - inconsideration for power ON and OFF. HOPEFULLY IT WORKS.
 
+## Registered-input/registered-output GHR
+
+The frequency-extension idea above was implemented as a separate GHR version with explicit registers at both the functional inputs and outputs. This version keeps the 36-entry, 9-bank by 4-row history organization and the seven geometric history depths, but gives the block a defined synchronous timing boundary. It also provides suitable boundary state for future power isolation or retention planning.
+
+The registered stages are R1 through R6 for branch, packet, misprediction, rollback-depth, recovery and input-valid state; R7 for the head pointer; and R8 through R10 for output-valid, incoming-packet and expiring-packet state.
+
+![Registered-I/O GHR architecture](docs/images/ghr/registered_io/ghr_registered_io_architecture.png)
+
+### Functional issues found during verification
+
+The new pipeline was verified with reset, normal branch insertion, pointer wraparound, alternating enable, two-enabled/one-disabled traffic, rollback-only, rollback with replacement, repeated rollback and packet-alignment sequences. The work exposed several integration issues that were corrected or explicitly classified:
+
+- Pointer progression originally lost accepted work across enable bubbles because next_head_ptr could return to the current pointer before the pending transaction updated R7.
+- A memory-write condition combined raw branch-valid control with registered packet data, allowing control and data from different transactions to meet at the bank memory.
+- incoming_packet_o, the seven expiring packets and output_valid_o initially represented different pipeline cycles.
+- The first scoreboard model used next_head_ptr as the history reference and produced an off-by-one expected expiring packet.
+- Startup monitoring before asynchronous reset completion produced X mismatches.
+- All gated bank clocks being low is legal when no bank write is accepted; the required invariant is a correctly aligned one-hot write edge when an operation is accepted.
+- Rollback depth zero remains parked as an illegal-stimulus case. Legal rollback timing and functionality use depths 1 through 35.
+
+The current RTL and UVM sources are:
+
+- [Registered-I/O GHR RTL](Verification/Verification%20Block%20Level/GHR_2reg/1_LP_Global_Histroy_register_2reg.sv)
+- [Registered-I/O GHR UVM testbench](Verification/Verification%20Block%20Level/GHR_2reg/TB_GHR_2reg.sv)
+- [Verification plan](Verification/Verification%20Block%20Level/GHR_2reg/verification%20plan%20doc.docx)
+
+### Arithmetic-path optimization
+
+The initial registered-I/O RTL calculated rollback_ptr and then incremented that result for rollback plus branch insertion. This serialized subtraction and increment logic on the path feeding the target-index and memory-read network.
+
+The replacement computes the rollback-plus-increment result directly as head_ptr + 1 - mispredicted depth modulo 36, while retaining rollback_ptr for rollback-only behavior and write-address selection. At 600 MHz, the measured head-pointer-to-expiring arrival improved from 1605.8624 ps to 1377.3075 ps, a reduction of approximately 228.55 ps or 14.25%. Setup margin on that path increased from +48.2930 ps to +276.8159 ps.
+
+### 600 MHz and 700 MHz results
+
+| Metric | 600 MHz after optimization | 700 MHz |
+|---|---:|---:|
+| Clock period | 1666.67 ps | 1428.571 ps |
+| Worst setup slack | +214.5541 ps overall | +42.0069 ps |
+| Worst hold slack | +11.9252 ps | +11.9252 ps |
+| Limiting 700 MHz path | — | head_ptr_reg[1] to expiring_packet_o_reg[2][6] |
+| Cell area | 5015.2867 | 5014.5869 |
+| Estimated synthesis power | 0.261 mW | 0.303 mW |
+| Sequential cells | 332 | 332 |
+| Direct functional input-to-output paths | 0 | 0 |
+| Setup/hold violations | 0 / 0 | 0 / 0 |
+
+PrimeTime confirms the 700 MHz result. The critical-path data arrives at 1374.0164 ps and is required by 1416.0233 ps, leaving +42.0069 ps. The timing-equivalent limit of this mapped design is approximately 721.2 MHz; 720 MHz would leave only about 2.3 ps nominal margin and is not treated as a robust signoff target.
+
+### Current critical path
+
+The remaining limiting path is:
+
+    R7 head_ptr
+      -> pointer and next-head arithmetic
+      -> target_index[2] for history depth 6
+      -> read-bank/read-row decoding
+      -> 9-bank history-memory selection
+      -> R10 expiring_packet_o_reg[2][6]
+
+The path includes two Design Compiler datapath arithmetic groups, a bank/row decode network, high-fanout intermediate control, and the memory-read mux. The largest local increments include U4278 at 113.15 ps driving a fanout-30 net and U3734 at 85.49 ps driving a fanout-17 net. The current investigation is locating the exact target_index boundary in Design Vision before selecting another RTL optimization.
+
+![700 MHz critical path, part 1](docs/images/ghr/registered_io/ghr_2reg_700mhz_critical_path_part1.png)
+![700 MHz critical path, part 2](docs/images/ghr/registered_io/ghr_2reg_700mhz_critical_path_part2.png)
+![700 MHz critical path, part 3](docs/images/ghr/registered_io/ghr_2reg_700mhz_critical_path_part3.png)
+![700 MHz critical path, part 4](docs/images/ghr/registered_io/ghr_2reg_700mhz_critical_path_part4.png)
+![700 MHz critical path, part 5](docs/images/ghr/registered_io/ghr_2reg_700mhz_critical_path_part5.png)
+
+### Reproducible timing artifacts
+
+- [700 MHz SDC](constraints/ghr/LP_ghr_block_2reg_700mhz.sdc)
+- [Design Compiler run script](scripts/ghr/synthesize_ghr_2reg_700mhz.tcl)
+- [PrimeTime run script](scripts/ghr/primetime_ghr_2reg_700mhz.tcl)
+- [PrimeTime 700 MHz reports](reports/ghr/primetime_2reg_700mhz/)
+- [Design Compiler 700 MHz report summary](reports/ghr/dc_2reg_700mhz/README.md)
+- [Detailed GHR timing-closure log](docs/ghr/timing/GHR_TIMING_CLOSURE_LOG.md)
+
+The 700 MHz constraints use 60% of the period as maximum input delay and 40% as maximum output delay. Clock uncertainty is not yet applied. rst_n is false-pathed as an asynchronous reset, so reset recovery/removal remains a separate signoff item. PrimeTime reports no synchronous setup or hold violations and no direct functional input-to-output timing path.
+
+---
+
 ## GHR verification
 
 The GHR UVM environment was updated to account for the added pipeline latency. The reference model and directed sequences check normal insertion, pointer wraparound, rollback, rollback with replacement, enable gating, and all seven expiring-history outputs. Repeated rollback scenarios were also added to exercise recovery behavior across multiple pointer positions.

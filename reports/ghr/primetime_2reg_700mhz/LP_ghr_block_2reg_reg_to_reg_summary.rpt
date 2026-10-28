@@ -1,0 +1,1013 @@
+****************************************
+Report : timing
+	-path_type summary
+	-delay_type max
+	-slack_lesser_than 1000000.00
+	-max_paths 100000
+	-start_end_pair
+	-sort_by slack
+Design : LP_ghr_block_2reg
+Version: W-2024.09-SP5-5
+Date   : Wed Oct 28 14:06:54 2026
+****************************************
+
+Startpoint                      Endpoint                           Slack
+------------------------------------------------------------------------------
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_2__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   42.01
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_0__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                   50.46
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_1__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  202.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_4__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  218.71
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_5__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  220.76
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_3__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  221.15
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                expiring_packet_o_reg_reg_6__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  226.13
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__5__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.16
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__1__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  625.84
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__5__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.57
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__5__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  627.86
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__1__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.25
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__5__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.30
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__1__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__1__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  628.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__0__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.95
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__7__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  637.97
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__6__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__4__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  638.27
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__0__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__7__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.37
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__0__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.64
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__7__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__6__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__4__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.67
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__6__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__4__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  640.96
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__0__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.08
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__7__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__6__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__4__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  641.40
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__3__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.10
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__2__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  656.39
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__3__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.50
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__3__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.79
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__2__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  658.80
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__2__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.09
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__3__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.23
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__2__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  659.53
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_2__8__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  683.66
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_0__8__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.35
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_1__8__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.49
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                bank_mem_reg_3__8__0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  684.62
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                head_ptr_reg_0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  767.65
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                head_ptr_reg_5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  798.78
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                head_ptr_reg_2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  824.69
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                head_ptr_reg_4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  920.69
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                head_ptr_reg_1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  924.37
+head_ptr_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                head_ptr_reg_3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  945.44
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                incoming_packet_o_reg_reg_0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                  977.12
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                output_valid_o_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1007.13
+br_packet_i_reg_reg_6_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_6_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+br_packet_i_reg_reg_5_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+br_packet_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+br_packet_i_reg_reg_3_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+br_packet_i_reg_reg_2_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+br_packet_i_reg_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+br_packet_i_reg_reg_0_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_packet_i_reg_reg_0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1257.69
+mispredicted_table_depth_i_reg_reg_5_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                mispredicted_table_depth_i_reg_reg_5_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1311.94
+mispredicted_table_depth_i_reg_reg_3_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                mispredicted_table_depth_i_reg_reg_3_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1324.88
+mispredicted_table_depth_i_reg_reg_4_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                mispredicted_table_depth_i_reg_reg_4_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1326.02
+mispredicted_table_depth_i_reg_reg_2_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                mispredicted_table_depth_i_reg_reg_2_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1326.02
+mispredicted_table_depth_i_reg_reg_1_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                mispredicted_table_depth_i_reg_reg_1_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1329.52
+mispredicted_table_depth_i_reg_reg_0_/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                mispredicted_table_depth_i_reg_reg_0_/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1331.11
+input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                input_stage_valid_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1339.31
+recovery_active_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                recovery_active_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1339.69
+br_valid_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                br_valid_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1346.18
+misprediction_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)
+                                misprediction_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)
+                                                                 1346.18
+
+1

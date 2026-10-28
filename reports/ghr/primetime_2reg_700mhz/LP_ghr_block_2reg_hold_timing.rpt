@@ -1,0 +1,677 @@
+****************************************
+Report : timing
+	-path_type full_clock_expanded
+	-delay_type min
+	-nosplit
+	-input_pins
+	-nets
+	-nworst 5
+	-slack_lesser_than 1000000.0000
+	-max_paths 20
+	-transition_time
+	-capacitance
+	-sort_by slack
+Design : LP_ghr_block_2reg
+Version: W-2024.09-SP5-5
+Date   : Wed Oct 28 14:06:54 2026
+****************************************
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: recovery_active_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 r
+  en_i (in)                                                              50.0000     0.0000     0.0000 r
+  en_i (net)                                               9   2.9676 
+  U3714/A2 (OAI21xp33_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 r
+  U3714/Y (OAI21xp33_ASAP7_75t_R)                                        12.7109    19.1051    19.1051 f
+  n2274 (net)                                              1   0.4713 
+  recovery_active_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 12.7109     0.0000    19.1051 f
+  data arrival time                                                                            19.1051
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  recovery_active_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  7.1800     7.1800
+  data required time                                                                            7.1800
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            7.1800
+  data arrival time                                                                           -19.1051
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  11.9252
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: misprediction_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                               Fanout    Cap      Trans       Incr       Path
+  -----------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  input external delay                                                             0.0000     0.0000 r
+  en_i (in)                                                            50.0000     0.0000     0.0000 r
+  en_i (net)                                             9   2.9676 
+  U3713/A1 (OAI21xp33_ASAP7_75t_R)                                     50.0000     0.0000     0.0000 r
+  U3713/Y (OAI21xp33_ASAP7_75t_R)                                      13.1783    20.6687    20.6687 f
+  n2276 (net)                                            1   0.4713 
+  misprediction_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.1783     0.0000    20.6687 f
+  data arrival time                                                                          20.6687
+
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  misprediction_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                    0.0000     0.0000
+  library hold time                                                                7.0855     7.0855
+  data required time                                                                          7.0855
+  -----------------------------------------------------------------------------------------------------
+  data required time                                                                          7.0855
+  data arrival time                                                                         -20.6687
+  -----------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                13.5832
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: br_valid_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Fanout    Cap      Trans       Incr       Path
+  ------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  input external delay                                                        0.0000     0.0000 r
+  en_i (in)                                                       50.0000     0.0000     0.0000 r
+  en_i (net)                                        9   2.9676 
+  U3712/A1 (OAI21xp33_ASAP7_75t_R)                                50.0000     0.0000     0.0000 r
+  U3712/Y (OAI21xp33_ASAP7_75t_R)                                 13.4442    20.6687    20.6687 f
+  n2278 (net)                                       1   0.4713 
+  br_valid_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.4442     0.0000    20.6687 f
+  data arrival time                                                                     20.6687
+
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  br_valid_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                               0.0000     0.0000
+  library hold time                                                           7.0318     7.0318
+  data required time                                                                     7.0318
+  ------------------------------------------------------------------------------------------------
+  data required time                                                                     7.0318
+  data arrival time                                                                    -20.6687
+  ------------------------------------------------------------------------------------------------
+  slack (MET)                                                                           13.6369
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: input_stage_valid_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 r
+  en_i (in)                                                              50.0000     0.0000     0.0000 r
+  en_i (net)                                               9   2.9676 
+  U4690/A1 (OAI211xp5_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 r
+  U4690/Y (OAI211xp5_ASAP7_75t_R)                                        17.1348    20.8302    20.8302 f
+  n2280 (net)                                              1   0.4713 
+  input_stage_valid_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 17.1348     0.0000    20.8302 f
+  data arrival time                                                                            20.8302
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  6.2862     6.2862
+  data required time                                                                            6.2862
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            6.2862
+  data arrival time                                                                           -20.8302
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  14.5440
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: misprediction_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                               Fanout    Cap      Trans       Incr       Path
+  -----------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  input external delay                                                             0.0000     0.0000 f
+  en_i (in)                                                            50.0000     0.0000     0.0000 f
+  en_i (net)                                             9   3.0245 
+  U3713/A1 (OAI21xp33_ASAP7_75t_R)                                     50.0000     0.0000     0.0000 f
+  U3713/Y (OAI21xp33_ASAP7_75t_R)                                      13.7257    22.1179    22.1179 r
+  n2276 (net)                                            1   0.4819 
+  misprediction_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.7257     0.0000    22.1179 r
+  data arrival time                                                                          22.1179
+
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  misprediction_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                    0.0000     0.0000
+  library hold time                                                                1.5198     1.5198
+  data required time                                                                          1.5198
+  -----------------------------------------------------------------------------------------------------
+  data required time                                                                          1.5198
+  data arrival time                                                                         -22.1179
+  -----------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                20.5981
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: br_valid_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Fanout    Cap      Trans       Incr       Path
+  ------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  input external delay                                                        0.0000     0.0000 f
+  en_i (in)                                                       50.0000     0.0000     0.0000 f
+  en_i (net)                                        9   3.0245 
+  U3712/A1 (OAI21xp33_ASAP7_75t_R)                                50.0000     0.0000     0.0000 f
+  U3712/Y (OAI21xp33_ASAP7_75t_R)                                 14.0630    22.1179    22.1179 r
+  n2278 (net)                                       1   0.4819 
+  br_valid_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 14.0630     0.0000    22.1179 r
+  data arrival time                                                                     22.1179
+
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  br_valid_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                               0.0000     0.0000
+  library hold time                                                           1.4779     1.4779
+  data required time                                                                     1.4779
+  ------------------------------------------------------------------------------------------------
+  data required time                                                                     1.4779
+  data arrival time                                                                    -22.1179
+  ------------------------------------------------------------------------------------------------
+  slack (MET)                                                                           20.6400
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: recovery_active_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 f
+  en_i (in)                                                              50.0000     0.0000     0.0000 f
+  en_i (net)                                               9   3.0245 
+  U3714/A2 (OAI21xp33_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 f
+  U3714/Y (OAI21xp33_ASAP7_75t_R)                                        12.7345    23.2951    23.2951 r
+  n2274 (net)                                              1   0.4819 
+  recovery_active_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 12.7345     0.0000    23.2951 r
+  data arrival time                                                                            23.2951
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  recovery_active_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  1.6428     1.6428
+  data required time                                                                            1.6428
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            1.6428
+  data arrival time                                                                           -23.2951
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  21.6523
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: input_stage_valid_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 f
+  en_i (in)                                                              50.0000     0.0000     0.0000 f
+  en_i (net)                                               9   3.0245 
+  U4690/A1 (OAI211xp5_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 f
+  U4690/Y (OAI211xp5_ASAP7_75t_R)                                        15.6393    24.5617    24.5617 r
+  n2280 (net)                                              1   0.4819 
+  input_stage_valid_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 15.6393     0.0000    24.5617 r
+  data arrival time                                                                            24.5617
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  1.2824     1.2824
+  data required time                                                                            1.2824
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            1.2824
+  data arrival time                                                                           -24.5617
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  23.2794
+
+
+  Startpoint: recovery_active_i (input port clocked by clk)
+  Endpoint: recovery_active_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 r
+  recovery_active_i (in)                                                 50.0000     0.0000     0.0000 r
+  recovery_active_i (net)                                  1   0.2616 
+  U3724/A (NAND2xp33_ASAP7_75t_R)                                        50.0000     0.0000     0.0000 r
+  U3724/Y (NAND2xp33_ASAP7_75t_R)                                        14.9008    13.7454    13.7454 f
+  n2859 (net)                                              1   0.3095 
+  U3714/B (OAI21xp33_ASAP7_75t_R)                                        14.9008     0.0000    13.7454 f
+  U3714/Y (OAI21xp33_ASAP7_75t_R)                                        12.7345    11.4084    25.1538 r
+  n2274 (net)                                              1   0.4819 
+  recovery_active_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 12.7345     0.0000    25.1538 r
+  data arrival time                                                                            25.1538
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  recovery_active_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  1.6428     1.6428
+  data required time                                                                            1.6428
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            1.6428
+  data arrival time                                                                           -25.1538
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  23.5111
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: recovery_active_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 r
+  en_i (in)                                                              50.0000     0.0000     0.0000 r
+  en_i (net)                                               9   2.9676 
+  U3724/B (NAND2xp33_ASAP7_75t_R)                                        50.0000     0.0000     0.0000 r
+  U3724/Y (NAND2xp33_ASAP7_75t_R)                                        14.9008    14.8575    14.8575 f
+  n2859 (net)                                              1   0.3095 
+  U3714/B (OAI21xp33_ASAP7_75t_R)                                        14.9008     0.0000    14.8575 f
+  U3714/Y (OAI21xp33_ASAP7_75t_R)                                        12.7345    11.4084    26.2659 r
+  n2274 (net)                                              1   0.4819 
+  recovery_active_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 12.7345     0.0000    26.2659 r
+  data arrival time                                                                            26.2659
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  recovery_active_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  1.6428     1.6428
+  data required time                                                                            1.6428
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            1.6428
+  data arrival time                                                                           -26.2659
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  24.6231
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: recovery_active_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 f
+  en_i (in)                                                              50.0000     0.0000     0.0000 f
+  en_i (net)                                               9   3.0245 
+  U3724/B (NAND2xp33_ASAP7_75t_R)                                        50.0000     0.0000     0.0000 f
+  U3724/Y (NAND2xp33_ASAP7_75t_R)                                        21.2231    20.5279    20.5279 r
+  n2859 (net)                                              1   0.3132 
+  U3714/B (OAI21xp33_ASAP7_75t_R)                                        21.2231     0.0000    20.5279 r
+  U3714/Y (OAI21xp33_ASAP7_75t_R)                                        12.7109    13.2250    33.7530 f
+  n2274 (net)                                              1   0.4713 
+  recovery_active_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 12.7109     0.0000    33.7530 f
+  data arrival time                                                                            33.7530
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  recovery_active_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  7.1800     7.1800
+  data required time                                                                            7.1800
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            7.1800
+  data arrival time                                                                           -33.7530
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  26.5730
+
+
+  Startpoint: misprediction_i (input port clocked by clk)
+  Endpoint: misprediction_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                               Fanout    Cap      Trans       Incr       Path
+  -----------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  input external delay                                                             0.0000     0.0000 f
+  misprediction_i (in)                                                 50.0000     0.0000     0.0000 f
+  misprediction_i (net)                                  1   0.2818 
+  U2518/B (NAND2xp5_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 f
+  U2518/Y (NAND2xp5_ASAP7_75t_R)                                       24.1239    22.3528    22.3528 r
+  n4555 (net)                                            3   0.9713 
+  U3713/B (OAI21xp33_ASAP7_75t_R)                                      24.1239     0.0000    22.3528 r
+  U3713/Y (OAI21xp33_ASAP7_75t_R)                                      13.1783    13.7821    36.1349 f
+  n2276 (net)                                            1   0.4713 
+  misprediction_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.1783     0.0000    36.1349 f
+  data arrival time                                                                          36.1349
+
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  misprediction_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                    0.0000     0.0000
+  library hold time                                                                7.0855     7.0855
+  data required time                                                                          7.0855
+  -----------------------------------------------------------------------------------------------------
+  data required time                                                                          7.0855
+  data arrival time                                                                         -36.1349
+  -----------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                29.0493
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: misprediction_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                               Fanout    Cap      Trans       Incr       Path
+  -----------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  input external delay                                                             0.0000     0.0000 r
+  en_i (in)                                                            50.0000     0.0000     0.0000 r
+  en_i (net)                                             9   2.9676 
+  U2518/A (NAND2xp5_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 r
+  U2518/Y (NAND2xp5_ASAP7_75t_R)                                       20.5915    17.8848    17.8848 f
+  n4555 (net)                                            3   0.9824 
+  U3713/B (OAI21xp33_ASAP7_75t_R)                                      20.5915     0.0000    17.8848 f
+  U3713/Y (OAI21xp33_ASAP7_75t_R)                                      13.7257    13.1103    30.9951 r
+  n2276 (net)                                            1   0.4819 
+  misprediction_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.7257     0.0000    30.9951 r
+  data arrival time                                                                          30.9951
+
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  misprediction_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                    0.0000     0.0000
+  library hold time                                                                1.5198     1.5198
+  data required time                                                                          1.5198
+  -----------------------------------------------------------------------------------------------------
+  data required time                                                                          1.5198
+  data arrival time                                                                         -30.9951
+  -----------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                29.4754
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: misprediction_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                               Fanout    Cap      Trans       Incr       Path
+  -----------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  input external delay                                                             0.0000     0.0000 f
+  en_i (in)                                                            50.0000     0.0000     0.0000 f
+  en_i (net)                                             9   3.0245 
+  U2518/A (NAND2xp5_ASAP7_75t_R)                                       50.0000     0.0000     0.0000 f
+  U2518/Y (NAND2xp5_ASAP7_75t_R)                                       24.1239    23.6538    23.6538 r
+  n4555 (net)                                            3   0.9713 
+  U3713/B (OAI21xp33_ASAP7_75t_R)                                      24.1239     0.0000    23.6538 r
+  U3713/Y (OAI21xp33_ASAP7_75t_R)                                      13.1783    13.7821    37.4358 f
+  n2276 (net)                                            1   0.4713 
+  misprediction_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.1783     0.0000    37.4358 f
+  data arrival time                                                                          37.4358
+
+  clock clk (rise edge)                                                20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                      0.0000     0.0000
+  misprediction_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                    0.0000     0.0000
+  library hold time                                                                7.0855     7.0855
+  data required time                                                                          7.0855
+  -----------------------------------------------------------------------------------------------------
+  data required time                                                                          7.0855
+  data arrival time                                                                         -37.4358
+  -----------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                30.3503
+
+
+  Startpoint: br_valid_i (input port clocked by clk)
+  Endpoint: br_valid_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Fanout    Cap      Trans       Incr       Path
+  ------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  input external delay                                                        0.0000     0.0000 f
+  br_valid_i (in)                                                 50.0000     0.0000     0.0000 f
+  br_valid_i (net)                                  1   0.2818 
+  U2517/B (NAND2xp5_ASAP7_75t_R)                                  50.0000     0.0000     0.0000 f
+  U2517/Y (NAND2xp5_ASAP7_75t_R)                                  25.7748    23.6507    23.6507 r
+  n4554 (net)                                       3   1.1249 
+  U3712/B (OAI21xp33_ASAP7_75t_R)                                 25.7748     0.0000    23.6507 r
+  U3712/Y (OAI21xp33_ASAP7_75t_R)                                 13.4442    14.0990    37.7497 f
+  n2278 (net)                                       1   0.4713 
+  br_valid_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.4442     0.0000    37.7497 f
+  data arrival time                                                                     37.7497
+
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  br_valid_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                               0.0000     0.0000
+  library hold time                                                           7.0318     7.0318
+  data required time                                                                     7.0318
+  ------------------------------------------------------------------------------------------------
+  data required time                                                                     7.0318
+  data arrival time                                                                    -37.7497
+  ------------------------------------------------------------------------------------------------
+  slack (MET)                                                                           30.7179
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: br_valid_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Fanout    Cap      Trans       Incr       Path
+  ------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  input external delay                                                        0.0000     0.0000 r
+  en_i (in)                                                       50.0000     0.0000     0.0000 r
+  en_i (net)                                        9   2.9676 
+  U2517/A (NAND2xp5_ASAP7_75t_R)                                  50.0000     0.0000     0.0000 r
+  U2517/Y (NAND2xp5_ASAP7_75t_R)                                  22.0161    18.8857    18.8857 f
+  n4554 (net)                                       3   1.1148 
+  U3712/B (OAI21xp33_ASAP7_75t_R)                                 22.0161     0.0000    18.8857 f
+  U3712/Y (OAI21xp33_ASAP7_75t_R)                                 14.0630    13.4671    32.3528 r
+  n2278 (net)                                       1   0.4819 
+  br_valid_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 14.0630     0.0000    32.3528 r
+  data arrival time                                                                     32.3528
+
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  br_valid_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                               0.0000     0.0000
+  library hold time                                                           1.4779     1.4779
+  data required time                                                                     1.4779
+  ------------------------------------------------------------------------------------------------
+  data required time                                                                     1.4779
+  data arrival time                                                                    -32.3528
+  ------------------------------------------------------------------------------------------------
+  slack (MET)                                                                           30.8749
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: input_stage_valid_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 r
+  en_i (in)                                                              50.0000     0.0000     0.0000 r
+  en_i (net)                                               9   2.9676 
+  U2518/A (NAND2xp5_ASAP7_75t_R)                                         50.0000     0.0000     0.0000 r
+  U2518/Y (NAND2xp5_ASAP7_75t_R)                                         20.5915    17.8848    17.8848 f
+  n4555 (net)                                              3   0.9824 
+  U4690/B (OAI211xp5_ASAP7_75t_R)                                        20.5915     0.0000    17.8848 f
+  U4690/Y (OAI211xp5_ASAP7_75t_R)                                        15.6393    14.7919    32.6768 r
+  n2280 (net)                                              1   0.4819 
+  input_stage_valid_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 15.6393     0.0000    32.6768 r
+  data arrival time                                                                            32.6768
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  1.2824     1.2824
+  data required time                                                                            1.2824
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            1.2824
+  data arrival time                                                                           -32.6768
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  31.3944
+
+
+  Startpoint: en_i (input port clocked by clk)
+  Endpoint: br_valid_i_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Fanout    Cap      Trans       Incr       Path
+  ------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  input external delay                                                        0.0000     0.0000 f
+  en_i (in)                                                       50.0000     0.0000     0.0000 f
+  en_i (net)                                        9   3.0245 
+  U2517/A (NAND2xp5_ASAP7_75t_R)                                  50.0000     0.0000     0.0000 f
+  U2517/Y (NAND2xp5_ASAP7_75t_R)                                  25.7748    24.8645    24.8645 r
+  n4554 (net)                                       3   1.1249 
+  U3712/B (OAI21xp33_ASAP7_75t_R)                                 25.7748     0.0000    24.8645 r
+  U3712/Y (OAI21xp33_ASAP7_75t_R)                                 13.4442    14.0990    38.9636 f
+  n2278 (net)                                       1   0.4713 
+  br_valid_i_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 13.4442     0.0000    38.9636 f
+  data arrival time                                                                     38.9636
+
+  clock clk (rise edge)                                           20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                 0.0000     0.0000
+  br_valid_i_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                               0.0000     0.0000
+  library hold time                                                           7.0318     7.0318
+  data required time                                                                     7.0318
+  ------------------------------------------------------------------------------------------------
+  data required time                                                                     7.0318
+  data arrival time                                                                    -38.9636
+  ------------------------------------------------------------------------------------------------
+  slack (MET)                                                                           31.9318
+
+
+  Startpoint: misprediction_i (input port clocked by clk)
+  Endpoint: input_stage_valid_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 f
+  misprediction_i (in)                                                   50.0000     0.0000     0.0000 f
+  misprediction_i (net)                                    1   0.2818 
+  U2518/B (NAND2xp5_ASAP7_75t_R)                                         50.0000     0.0000     0.0000 f
+  U2518/Y (NAND2xp5_ASAP7_75t_R)                                         24.1239    22.3528    22.3528 r
+  n4555 (net)                                              3   0.9713 
+  U4690/B (OAI211xp5_ASAP7_75t_R)                                        24.1239     0.0000    22.3528 r
+  U4690/Y (OAI211xp5_ASAP7_75t_R)                                        17.1348    15.8829    38.2358 f
+  n2280 (net)                                              1   0.4713 
+  input_stage_valid_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 17.1348     0.0000    38.2358 f
+  data arrival time                                                                            38.2358
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  6.2862     6.2862
+  data required time                                                                            6.2862
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            6.2862
+  data arrival time                                                                           -38.2358
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  31.9495
+
+
+  Startpoint: br_valid_i (input port clocked by clk)
+  Endpoint: input_stage_valid_reg_reg (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                 Fanout    Cap      Trans       Incr       Path
+  -------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input external delay                                                               0.0000     0.0000 f
+  br_valid_i (in)                                                        50.0000     0.0000     0.0000 f
+  br_valid_i (net)                                         1   0.2818 
+  U2517/B (NAND2xp5_ASAP7_75t_R)                                         50.0000     0.0000     0.0000 f
+  U2517/Y (NAND2xp5_ASAP7_75t_R)                                         25.7748    23.6507    23.6507 r
+  n4554 (net)                                              3   1.1249 
+  U4690/C (OAI211xp5_ASAP7_75t_R)                                        25.7748     0.0000    23.6507 r
+  U4690/Y (OAI211xp5_ASAP7_75t_R)                                        17.1348    15.3930    39.0437 f
+  n2280 (net)                                              1   0.4713 
+  input_stage_valid_reg_reg/D (ASYNC_DFFHx1_ASAP7_75t_R)                 17.1348     0.0000    39.0437 f
+  data arrival time                                                                            39.0437
+
+  clock clk (rise edge)                                                  20.0000     0.0000     0.0000
+  clock network delay (ideal)                                                        0.0000     0.0000
+  input_stage_valid_reg_reg/CLK (ASYNC_DFFHx1_ASAP7_75t_R)                                      0.0000 r
+  clock reconvergence pessimism                                                      0.0000     0.0000
+  library hold time                                                                  6.2862     6.2862
+  data required time                                                                            6.2862
+  -------------------------------------------------------------------------------------------------------
+  data required time                                                                            6.2862
+  data arrival time                                                                           -39.0437
+  -------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                  32.7575
+
+Warning: report_timing has satisfied the max_paths criteria. There are 385 further endpoints which have paths of interest with slack less than 1000000.0000 that were not considered when generating this report. (UITE-502)
+
+1

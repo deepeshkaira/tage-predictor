@@ -1,0 +1,12 @@
+****************************************
+Report : global_timing
+	-format { narrow }
+Design : LP_ghr_block_2reg
+Version: W-2024.09-SP5-5
+Date   : Wed Oct 28 14:06:54 2026
+****************************************
+
+No setup violations found.
+
+No hold violations found.
+1
