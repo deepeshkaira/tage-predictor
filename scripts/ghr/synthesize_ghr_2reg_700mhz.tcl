@@ -31,6 +31,11 @@ set_fix_multiple_port_nets -all -buffer_constants
 
 compile_ultra
 
+# Reapply the accepted post-compile sizing ECOs. The ECO script stops the run
+# if mapped instance names change, preventing a run from silently omitting the
+# characterized cell choices.
+source scripts/ghr/ghr_2reg_700mhz_manual_sizing_eco.tcl
+
 check_design > reports/synthesis_2reg_700mhz/LP_ghr_block_2reg_post_compile_check.rpt
 
 check_timing > reports/synthesis_2reg_700mhz/LP_ghr_block_2reg_check_timing.rpt
