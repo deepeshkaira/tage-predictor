@@ -126,6 +126,23 @@ The same RTL was synthesized again using a 1428.571 ps clock period. PrimeTime r
 
 The timing-equivalent minimum period estimated from this mapping is approximately 1386.563 ps, corresponding to about 721.2 MHz. A 720 MHz run would therefore have only about 2.3 ps of nominal margin if the mapping remained unchanged. This estimate is useful for characterization, but it is not a robust signoff target because clock uncertainty, extracted interconnect, variation, and physical implementation margin are not yet included.
 
+### 5.1 Whole-design PrimeTime checkpoint after the first manual ECO set
+
+The accepted mapped-cell changes were saved from Design Vision as a separate 700 MHz manual-ECO netlist and SDC, then analyzed in PrimeTime without overwriting the original 700 MHz synthesis output. This checkpoint preceded the later U4286 and U4276 experiments documented in Section 6.4.9.
+
+| Measurement | Original 700 MHz mapping | Manual-ECO checkpoint | Change |
+|---|---:|---:|---:|
+| Global worst setup slack | +42.0069 ps | +108.6811 ps | +66.6742 ps |
+| Global worst data arrival | 1374.0164 ps | 1307.3422 ps | -66.6742 ps |
+| Worst hold slack | +11.9252 ps | +11.9252 ps | unchanged |
+| Setup violations | 0 | 0 | unchanged |
+| Hold violations | 0 | 0 | unchanged |
+| Direct functional input-to-output paths | 0 | 0 | unchanged |
+
+The corresponding timing-equivalent period was approximately 1319.8888 ps, or 757.6 MHz. This is a characterization estimate under the current pre-layout assumptions, not a signoff frequency. The analysis still uses ideal clocks, no clock uncertainty, no extracted interconnect parasitics, and one TT operating condition.
+
+The manual-ECO PrimeTime cell-size report confirmed the intended U3908-path changes. It also reported U4278=NAND2x1p5, while the exploratory Design Vision record and the reproducible ECO script identify the accepted U4278 target as NAND2x1. This discrepancy is explicitly left open: the final reproducible DC run must compare the generated netlist against the ECO script, select one intended U4278 size based on a controlled timing/area measurement, and regenerate the PrimeTime checkpoint. The 757.6 MHz estimate therefore describes the saved manual-ECO netlist exactly; it must not be attributed blindly to a different reconstructed cell-size list.
+
 ## 6. Current limiting path
 
 The current path is:
@@ -382,9 +399,262 @@ U3908 = NAND2x1p5
 U2373 = NAND2xp5
 ```
 
+### 6.4.9 Follow-on path: misprediction depth bit 4 to expiring packet [2][0]
+
+After improving the earlier head-pointer route, the investigation was locked to the following exact path so that Design Vision would not silently switch to a different member of the same timing family after each sizing operation:
+
+```text
+Startpoint: mispredicted_table_depth_i_reg_reg_4_/QN
+Endpoint:   expiring_packet_o_reg_reg_2__0_/D
+Anchors:    U2378/Y -> U4276/Y -> U4286/B -> U4286/Y -> U4388/A2
+```
+
+The original mapped route used U4276=NOR2xp33 and U4286=NAND2xp5. U4286 drives n3543, which has fanout 28 and 12.3333 units of reported capacitance. U4276 drives U4286 through n3520, so every increase in U4286 drive strength was evaluated together with the extra input-capacitance penalty placed on U4276.
+
+#### U4286 sizing sweep
+
+| U4286 size | Endpoint arrival | Path slack | Total cell area | Timing gain from xp5 | Area increase from xp5 |
+|---|---:|---:|---:|---:|---:|
+| NAND2xp5 | 1307.3423 ps | 108.6810 ps | 5019.019208 | reference | reference |
+| NAND2x1 | 1286.4130 ps | 129.6104 ps | 5019.485768 | 20.9293 ps | +0.466560 |
+| NAND2x1p5 | 1269.2488 ps | 146.7745 ps | 5019.952328 | 38.0935 ps | +0.933120 |
+
+For the x1p5 case, the added U4286 input capacitance increased U4276 delay from 77.4522 ps in the original xp5 configuration to 87.5305 ps. Despite that upstream penalty, U4286 delay fell from 104.3513 ps to 65.3575 ps and its output transition improved from 182.3094 ps to 101.6218 ps. The improved slew also reduced delay in the first downstream stages. Decision: retain U4286=NAND2x1p5 provisionally; it provides 38.0935 ps of path improvement for only 0.0186% total-cell-area growth.
+
+#### U4276 sizing with U4286 held at NAND2x1p5
+
+The library does not contain NOR2xp5, so the next available U4276 size above NOR2xp33 was NOR2xp67.
+
+| Measurement | U4276xp33 | U4276xp67 | Change |
+|---|---:|---:|---:|
+| n3519 capacitance seen by U2378 | 5.3529 | 5.7540 | +0.4011 |
+| U2378 delay | 86.5213 ps | 91.2184 ps | +4.6971 ps |
+| U2378 output transition | 141.7054 ps | 151.2682 ps | +9.5628 ps |
+| U4276 delay | 87.5305 ps | 66.3944 ps | -21.1361 ps |
+| U4276 output transition | 106.1195 ps | 71.9336 ps | -34.1859 ps |
+| U4286 delay | 65.3575 ps | 55.3774 ps | -9.9801 ps |
+| Endpoint arrival | 1269.2488 ps | 1242.8297 ps | -26.4191 ps |
+| Path slack | 146.7745 ps | 173.1936 ps | +26.4191 ps |
+| Total cell area | 5019.952328 | 5020.418888 | +0.466560 |
+
+The stronger U4276 increased U2378 delay by 4.6971 ps, but reduced its own delay by 21.1361 ps and delivered a much better transition into U4286. That improved U4286 by another 9.9801 ps. The complete locked path therefore improved by 26.4191 ps for approximately 0.0093% additional total cell area. Decision: retain U4276=NOR2xp67 provisionally. Both this choice and U4286=NAND2x1p5 still require unrestricted setup, hold, and design-rule checks before being promoted into the reproducible ECO script.
+
+#### U2378 sizing with U4276=NOR2xp67 and U4286=NAND2x1p5
+
+U2378 drives the fanout-11 n3519 net. It was changed from NOR2xp33 to the next available size, NOR2xp67. The stronger input increased the n3362 load on predecessor U4270, but the improvement propagated through both U4276 and U4286.
+
+| Measurement | U2378xp33 | U2378xp67 | Change |
+|---|---:|---:|---:|
+| n3362 capacitance seen by U4270 | 1.9310 | 2.3524 | +0.4214 |
+| U4270 delay | 20.0389 ps | 22.1946 ps | +2.1557 ps |
+| U4270 output transition | 83.5942 ps | 89.6308 ps | +6.0366 ps |
+| U2378 delay | 91.2184 ps | 60.1637 ps | -31.0547 ps |
+| U2378 output transition | 151.2682 ps | 83.4041 ps | -67.8641 ps |
+| U4276 delay | 66.3944 ps | 50.3702 ps | -16.0242 ps |
+| U4286 delay | 55.3774 ps | 51.0090 ps | -4.3684 ps |
+| Endpoint arrival | 1242.8297 ps | 1193.5381 ps | -49.2916 ps |
+| Path slack | 173.1936 ps | 222.4852 ps | +49.2916 ps |
+| Total cell area | 5020.418888 | 5020.885448 | +0.466560 |
+
+The U4270 predecessor penalty was only 2.1557 ps. U2378 itself became 31.0547 ps faster and reduced its output transition by 67.8641 ps; this better slew made U4276 16.0242 ps faster and U4286 4.3684 ps faster. The complete locked path improved by 49.2916 ps for approximately 0.0093% additional total cell area. Decision: retain U2378=NOR2xp67 provisionally.
+
+Across the current three-cell sequence—U4286 xp5 to x1p5, U4276 xp33 to xp67, and U2378 xp33 to xp67—the locked endpoint arrival improved from 1307.3423 ps to 1193.5381 ps, a cumulative improvement of 113.8042 ps. Total cell area increased from 5019.019208 to 5020.885448, an increase of 1.866240 or approximately 0.0372%. This cumulative result is specific to the anchored path and must not be treated as whole-design WNS until unrestricted setup and hold reports are rerun.
+
+#### U4270 one-step sizing experiment
+
+With U2378=NOR2xp67, U4276=NOR2xp67, and U4286=NAND2x1p5 held fixed, U4270 was tested from O2A1O1Ixp33 to O2A1O1Ixp5. U4270 was included explicitly as a path anchor so the comparison used the same internal route.
+
+| Measurement | U4270xp33 | U4270xp5 | Change |
+|---|---:|---:|---:|
+| n3335 capacitance seen by U2860 | 0.5390 | 0.5404 | +0.0014 |
+| U2860 delay | 20.6560 ps | 20.6741 ps | +0.0181 ps |
+| U4270 delay | 22.1946 ps | 21.5516 ps | -0.6430 ps |
+| U4270 output transition | 89.6308 ps | 77.8195 ps | -11.8113 ps |
+| U2378 delay | 60.1637 ps | 57.7115 ps | -2.4522 ps |
+| U4276 delay | 50.3702 ps | 49.9731 ps | -0.3971 ps |
+| U4286 delay | 51.0090 ps | 50.9008 ps | -0.1082 ps |
+| Endpoint arrival | 1193.5381 ps | 1189.9802 ps | -3.5579 ps |
+| Path slack | 222.4852 ps | 226.0431 ps | +3.5579 ps |
+| Total cell area | 5020.885448 | 5021.352008 | +0.466560 |
+
+The predecessor penalty was negligible, but U4270 itself improved by only 0.6430 ps because it was not a major delay contributor. Most of the small endpoint gain came from better slew into U2378. The complete path improved by only 3.5579 ps for the same 0.466560 area increment paid by several much more effective sizing changes. Decision: reject U4270xp5 for the current area-aware ECO set and restore U4270=O2A1O1Ixp33. The result remains documented in case a later near-closure run requires a final few picoseconds and area is secondary.
+
+#### U3735 high-fanout sizing experiment
+
+After restoring U4270 to O2A1O1Ixp33, U3735 was changed from AOI211xp5 to AOI211x1. These are the only two AOI211 strengths available in the loaded ASAP7 library. U3735 drives the fanout-18 n4563 net and was contributing 146.3149 ps with a 290.3343 ps output transition.
+
+| Measurement | U3735xp5 | U3735x1 | Change |
+|---|---:|---:|---:|
+| n2660 capacitance seen by U3769 | 0.4986 | 0.9392 | +0.4406 |
+| U3769 delay | 21.7663 ps | 26.2025 ps | +4.4362 ps |
+| U3735 delay | 146.3149 ps | 82.2133 ps | -64.1016 ps |
+| U3735 output transition | 290.3343 ps | 152.7220 ps | -137.6123 ps |
+| U3818 delay | 57.4758 ps | 44.2052 ps | -13.2706 ps |
+| U3819 delay | 26.8508 ps | 26.1483 ps | -0.7025 ps |
+| U4267 delay | 39.0851 ps | 33.8336 ps | -5.2515 ps |
+| Endpoint arrival | 1193.5381 ps | 1114.6490 ps | -78.8891 ps |
+| Path slack | 222.4852 ps | 301.3743 ps | +78.8891 ps |
+| Total cell area | 5020.885448 | 5022.285128 | +1.399680 |
+
+The U3769 predecessor penalty was only 4.4362 ps. U3735 itself became 64.1016 ps faster, and the 137.6123 ps slew improvement propagated through U3818 and later decode logic. The complete locked path improved by 78.8891 ps for approximately 0.0279% additional total cell area, or about 56.36 ps of path gain per area unit. Decision: accept U3735=AOI211x1 provisionally.
+
+With U4286=NAND2x1p5, U4276=NOR2xp67, U2378=NOR2xp67, U4270 restored to O2A1O1Ixp33, and U3735=AOI211x1, the locked endpoint arrival improved from 1307.3423 ps to 1114.6490 ps. This is a cumulative path improvement of 192.6933 ps. Total cell area increased from 5019.019208 to 5022.285128, an increase of 3.265920 or approximately 0.0651%. A fresh unrestricted setup/hold analysis is still required before this cumulative result can be interpreted at whole-design level.
+
+#### U2476 sizing experiment
+
+With the preceding accepted changes held fixed, U2476 was changed from NOR2xp33 to NOR2xp67. The loaded library has no NOR2xp5, making xp67 the immediate next available strength. U2476 drives the fanout-7 n2694 net.
+
+| Measurement | U2476xp33 | U2476xp67 | Change |
+|---|---:|---:|---:|
+| n2683 capacitance seen by U3647 | 1.2949 | 1.6425 | +0.3476 |
+| U3647 delay | 31.1305 ps | 34.5019 ps | +3.3714 ps |
+| U3647 output transition | 34.8517 ps | 38.7683 ps | +3.9166 ps |
+| U2476 delay | 43.9588 ps | 29.8873 ps | -14.0715 ps |
+| U2476 output transition | 65.8930 ps | 36.7780 ps | -29.1150 ps |
+| U2473 delay | 40.7956 ps | 32.0438 ps | -8.7518 ps |
+| U3769 delay | 26.2025 ps | 25.2656 ps | -0.9369 ps |
+| Endpoint arrival | 1114.6490 ps | 1094.2013 ps | -20.4477 ps |
+| Path slack | 301.3743 ps | 321.8220 ps | +20.4477 ps |
+| Total cell area | 5022.285128 | 5022.751688 | +0.466560 |
+
+The stronger U2476 increased U3647 delay by 3.3714 ps, but U2476 itself became 14.0715 ps faster and reduced its output transition by 29.1150 ps. The better slew improved U2473 by 8.7518 ps and U3769 by 0.9369 ps. The complete locked path improved by 20.4477 ps for approximately 0.0093% additional total cell area, or about 43.83 ps of path gain per area unit. Decision: accept U2476=NOR2xp67 provisionally.
+
+After the accepted U4286, U4276, U2378, U3735, and U2476 changes, the locked endpoint arrival improved from 1307.3423 ps to 1094.2013 ps, a cumulative improvement of 213.1410 ps. Total cell area increased from 5019.019208 to 5022.751688, an increase of 3.732480 or approximately 0.0744%.
+
+#### U2369 sizing experiment
+
+U2369 was changed from NOR2xp33 to NOR2xp67, the immediate next available NOR2 strength. It drives the fanout-8 n2728 net. U2476, U3735, U2378, U4276, and U4286 were held at their accepted provisional sizes.
+
+| Measurement | U2369xp33 | U2369xp67 | Change |
+|---|---:|---:|---:|
+| n2712 capacitance seen by U3756 | 2.4565 | 2.8577 | +0.4012 |
+| U3756 delay | 23.8122 ps | 25.4826 ps | +1.6704 ps |
+| U3756 output transition | 52.5096 ps | 58.4824 ps | +5.9728 ps |
+| U2369 delay | 57.7501 ps | 41.3232 ps | -16.4269 ps |
+| U2369 output transition | 84.2757 ps | 49.8100 ps | -34.4657 ps |
+| U3647 delay | 34.5019 ps | 26.5758 ps | -7.9261 ps |
+| U2476 delay | 29.8873 ps | 27.5809 ps | -2.3064 ps |
+| Endpoint arrival | 1094.2013 ps | 1069.2117 ps | -24.9896 ps |
+| Path slack | 321.8220 ps | 346.8116 ps | +24.9896 ps |
+| Total cell area | 5022.751688 | 5023.218248 | +0.466560 |
+
+The U3756 predecessor penalty was 1.6704 ps. U2369 became 16.4269 ps faster and reduced its output transition by 34.4657 ps; the better slew improved U3647 by 7.9261 ps and U2476 by 2.3064 ps. The complete locked path improved by 24.9896 ps for approximately 0.0093% additional total cell area, or about 53.56 ps of path gain per area unit. Decision: accept U2369=NOR2xp67 provisionally.
+
+After the accepted U4286, U4276, U2378, U3735, U2476, and U2369 changes, the locked endpoint arrival improved from 1307.3423 ps to 1069.2117 ps, a cumulative improvement of 238.1306 ps. Total cell area increased from 5019.019208 to 5023.218248, an increase of 4.199040 or approximately 0.0837%.
+
+#### U3756 rejected sizing experiment
+
+U3756 was tested from OAI21xp5 to OAI21x1 because the loaded library provides no intermediate OAI21xp67 cell. The stronger cell improved its own delay and output slew, but its substantially larger input capacitance loaded two upstream portions of the active path.
+
+| Measurement | U3756xp5 | U3756x1 | Change |
+|---|---:|---:|---:|
+| n2641 capacitance driven by U3754 | 1.0643 | 1.6873 | +0.6230 |
+| U3754 delay | 36.2623 ps | 44.7596 ps | +8.4973 ps |
+| n2640 capacitance driven by U3755 | 0.5737 | 1.2446 | +0.6709 |
+| U3755 delay | 22.9838 ps | 33.9765 ps | +10.9927 ps |
+| U3756 delay | 25.4826 ps | 21.4523 ps | -4.0303 ps |
+| U3756 output transition | 58.4824 ps | 37.7280 ps | -20.7544 ps |
+| U2369 delay | 41.3232 ps | 35.3534 ps | -5.9698 ps |
+| U3647 delay | 26.5758 ps | 25.7299 ps | -0.8459 ps |
+| U2476 delay | 27.5809 ps | 27.3398 ps | -0.2411 ps |
+| Endpoint arrival | 1069.2117 ps | 1077.6146 ps | +8.4029 ps |
+| Path slack | 346.8116 ps | 338.4087 ps | -8.4029 ps |
+| Total cell area | 5023.218248 | 5023.918088 | +0.699840 |
+
+The local U3756 and downstream gains totaled less than the 19.4900 ps combined upstream penalty at U3754 and U3755. The complete path became 8.4029 ps slower while area increased by 0.699840. Decision: reject U3756=OAI21x1 and restore U3756=OAI21xp5.
+
+### 6.4.10 Follow-on path: en_i to expiring packet [3][0]
+
+After completing the misprediction-depth path experiments, the unrestricted maximum-delay report selected an input-to-register path from `en_i` to `expiring_packet_o_reg_reg_3__0_/D`. The 700 MHz constraint assigns 857.1430 ps, or 60% of the clock period, to external input delay. The original mapped path arrived at 1296.7107 ps with 119.3126 ps of slack, leaving 439.5677 ps of internal combinational delay.
+
+The exact mapped path was:
+
+```text
+en_i
+  -> U2355 NAND2x1
+  -> n2663, fanout 57
+  -> U2354 INVx1
+  -> n2627, fanout 64
+  -> U2382 NAND2xp33
+  -> n3775, fanout 7
+  -> U4457 A2O1A1Ixp33
+  -> expiring_packet_o_reg_reg_3__0_/D
+```
+
+The path was correlated with the RTL-planning schematic rather than treated as an isolated gate chain. U3747 and U3748 reconstruct `input_stage_valid_reg && br_valid_i_reg && !recovery_active_i_reg`, which is the RTL `br_valid_and_recovery_not_active` condition. U2355 combines that condition with raw `en_i`, and U2354 distributes the resulting active-high qualified enable. U2382 reconverges this control with an address/read-selection term derived from misprediction depth and the target-index/read-bank/read-row cone. Its fanout-seven output supplies shared control to the seven packet bits of history-depth entry 3. U4457 is the final bit-specific output-selection cell.
+
+The output-register hold path was also traced explicitly:
+
+```text
+expiring_packet_o_reg_reg_3__0_/QN
+  -> U3698
+  -> expiring_packet_o[21]
+  -> U4456/B2
+  -> U4456/Y
+  -> U4457/C
+  -> U4457/Y
+  -> expiring_packet_o_reg_reg_3__0_/D
+```
+
+This feedback path arrived in 140.9549 ps with 1274.1711 ps of slack, proving that register hold feedback was not the limiter. The optimization effort therefore remained on the high-fanout `en_i` distribution path.
+
+#### U2354 inverter sizing
+
+U2354 was changed from INVx1 to INVx2. U2355 remained NAND2x1 for this comparison.
+
+| Measurement | U2354=INVx1 | U2354=INVx2 | Change |
+|---|---:|---:|---:|
+| U2355 delay | 131.4839 ps | 133.7222 ps | +2.2383 ps |
+| U2354 delay | 164.6942 ps | 114.7085 ps | -49.9857 ps |
+| U2382 delay | 117.9811 ps | 96.6190 ps | -21.3621 ps |
+| U4457 delay | 25.4086 ps | 24.4424 ps | -0.9662 ps |
+| Endpoint arrival | 1296.7107 ps | 1226.6351 ps | -70.0756 ps |
+| Path slack | 119.3126 ps | 189.4263 ps | +70.1137 ps |
+| Total cell area | 5023.218248 | 5023.451528 | +0.233280 |
+
+The larger inverter increased U2355 delay by only 2.2383 ps while reducing its own delay by 49.9857 ps. Its improved output slew also reduced U2382 delay by 21.3621 ps. The internal combinational portion improved by 70.0756 ps, or approximately 15.94%, for approximately 0.0046% additional total cell area. Decision: retain U2354=INVx2 provisionally.
+
+#### U2355 NAND sizing sweep
+
+With U2354 held at INVx2, U2355 was evaluated at NAND2x1, NAND2x1p5, and NAND2x2.
+
+| U2355 version | Endpoint arrival | Path slack | Total cell area |
+|---|---:|---:|---:|
+| NAND2x1 | 1226.6351 ps | 189.4263 ps | 5023.451528 |
+| NAND2x1p5 | 1151.1943 ps | 265.0264 ps | 5023.918088 |
+| NAND2x2 | 1132.0619 ps | 284.2445 ps | 5024.384648 |
+
+Moving from NAND2x1 to NAND2x1p5 improved endpoint arrival by 75.4408 ps for 0.466560 additional area. Moving from NAND2x1p5 to NAND2x2 produced another 19.1324 ps of endpoint improvement and another 0.466560 area increment. Relative to NAND2x1, NAND2x2 improved the path by 94.5732 ps while increasing total cell area by 0.933120, approximately 0.0186%.
+
+The U2355/A predecessor was checked separately because that input is driven by U3748, whereas U2355/B is driven directly by the constrained `en_i` port. U3748 delay changed from 25.5062 ps with NAND2x1 to 26.3671 ps with NAND2x1p5 and 27.1302 ps with NAND2x2. The additional predecessor penalty from x1p5 to x2 was only 0.7631 ps. Over the same step, the complete supporting path from `input_stage_valid_reg_reg/QN` improved from 385.7112 ps to 367.9107 ps, and its slack improved from 1030.5095 ps to 1048.3958 ps. Thus, the larger NAND improved both relevant paths rather than shifting the bottleneck upstream.
+
+Decision: retain U2355=NAND2x2 provisionally. NAND2x1p5 was the more area-efficient first step, but NAND2x2 was selected because it delivered another 19.1324 ps on the limiting path, improved the supporting registered-control path by 17.8005 ps, imposed only a 0.7631 ps incremental predecessor penalty, and cost only 0.466560 additional area.
+
+Across the accepted U2354 and U2355 changes, endpoint arrival improved from 1296.7107 ps to 1132.0619 ps, a cumulative gain of 164.6488 ps. Path slack increased from 119.3126 ps to 284.2445 ps. Total cell area increased from 5023.218248 to 5024.384648, an increase of 1.166400 or approximately 0.0232%. These results apply to the locked path; unrestricted setup, hold, design-rule, and PrimeTime checks remain required before treating the result as a new whole-design frequency limit.
+
+#### U2382 NAND sizing sweep
+
+With U2354=INVx2 and U2355=NAND2x2 held fixed, U2382 was evaluated at NAND2xp33, NAND2xp5, and NAND2xp67. U2382 is a reconvergence point: input A is driven by the high-fanout qualified-enable net from U2354, while input B is driven by U3497 in the misprediction-depth/target-index/read-selection cone. Both predecessor paths were checked before accepting a size.
+
+| U2382 version | Main-path arrival | Main-path slack | Total cell area |
+|---|---:|---:|---:|
+| NAND2xp33 | 1132.0619 ps | 284.2445 ps | 5024.384648 |
+| NAND2xp5 | 1101.4697 ps | 314.8352 ps | 5024.384648 |
+| NAND2xp67 | 1104.9497 ps | 311.3529 ps | 5024.851208 |
+
+Changing from xp33 to xp5 improved the main path by 30.5922 ps without increasing reported cell area. U2354, the input-A predecessor, slowed by only 0.2571 ps. U2382 itself improved by 27.3053 ps, its output transition improved from 123.6426 ps to 73.7299 ps, and the improved slew reduced U4457 delay by another 3.5440 ps.
+
+The input-B supporting path also improved. U3497 incurred a 2.1669 ps predecessor penalty, but U2382 improved by 10.4348 ps and U4421 improved by 6.5514 ps. Supporting-path arrival decreased from 973.3538 ps to 958.5346 ps, a gain of 14.8192 ps, while slack increased from 441.7723 ps to 457.4533 ps.
+
+Increasing U2382 again from xp5 to xp67 was counterproductive on the limiting path. U2354 delay increased from 85.5914 ps to 85.9989 ps, U2382 delay increased from 61.1125 ps to 63.9775 ps, and U4457 delay increased from 20.6118 ps to 20.8193 ps. Endpoint arrival therefore worsened by 3.4800 ps, slack decreased by 3.4823 ps, and total cell area increased by 0.466560. The nominally stronger cell is not guaranteed to be faster for every characterized input slew, output load, and timing arc; in this operating region, NAND2xp5 is the better library choice.
+
+Decision: reject U2382=NAND2xp67, restore U2382=NAND2xp5, and retain xp5 provisionally. Relative to the original xp33 mapping, xp5 improves both predecessor routes, provides 30.5922 ps on the limiting path and 14.8192 ps on the supporting path, and carries no reported area penalty.
+
+After the accepted U2354, U2355, and U2382 changes, locked-path arrival is 1101.4697 ps, a cumulative improvement of 195.2410 ps from the 1296.7107 ps starting point. Locked-path slack is 314.8352 ps. Total cell area remains 5024.384648, an increase of 1.166400 or approximately 0.0232% over the start of this path investigation.
+
 ### 6.5 Reproducing and preserving the mapped-cell choices
 
-The accepted changes are implemented by `scripts/ghr/ghr_2reg_700mhz_manual_sizing_eco.tcl`. The synthesis script sources it after `compile_ultra` and before final checks, reports, and netlist writes. Applying the ECO before `compile_ultra` would not preserve the choices because compile optimization is free to remap the cells.
+The previously accepted changes are implemented by `scripts/ghr/ghr_2reg_700mhz_manual_sizing_eco.tcl`. The newly selected U2354=INVx2, U2355=NAND2x2, and U2382=NAND2xp5 choices remain provisional in the current Design Vision session and must be added to that ECO script after the present path sweep and unrestricted timing checks are complete. The synthesis script sources the ECO after `compile_ultra` and before final checks, reports, and netlist writes. Applying the ECO before `compile_ultra` would not preserve the choices because compile optimization is free to remap the cells.
 
 The ECO deliberately checks that each generated instance name resolves to exactly one cell and that every requested library cell exists. It stops the run if the mapping changes. This is necessary because names such as U3734 and U3908 are generated netlist names, not stable RTL instance names.
 
